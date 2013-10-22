@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ "$(ls --help | grep group-directories-first)" == "" ]; then
+	alias ls='ls --color=auto'
+else
+	# If --group-directories-first is supported, add it to ls command.
+	alias ls='ls --color=auto --group-directories-first'
+fi
+
+alias ll='ls -lh'
+alias la='ls -lah'
+alias l.='ls -dh .*'
+alias ll.='ls -ldh .*'
+alias df='df -Th'
+alias L='less -NR -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
+alias Ln='less -R -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
+alias dateiso='date +%Y-%m-%dT%H:%M:%S.%N | cut -b 1-23'
+
