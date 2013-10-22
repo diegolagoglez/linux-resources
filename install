@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo This script will install personal BASH configuration files.
+
+echo
+echo "** NOT YET IMPLEMENTED **"
+echo
+
