@@ -40,11 +40,18 @@ function user_color() {
 # If you are in a git project, this shows the current branch.
 # Do not forget to call this function with a backslash on PS1
 # in order to update prompt on branch change.
-# Additionaly, you can use __git_ps1() function, but it only
-# show git branch inside brackets.
+# Additionaly, you can use __git_ps1() function with arguments.
 function git_project() {
 	branch=$(git branch 2>&1 | grep '*' | cut -c3-)
 	if [ "$branch" != "" ]; then
+		echo -n " [git: $branch] "
+	fi
+}
+
+# Other method to get git current branch.
+function git_branch() {
+	branch=$(git symbolic-ref HEAD --short)
+	if [ -n "$branch" ]; then
 		echo -n " [git: $branch] "
 	fi
 }
@@ -55,8 +62,11 @@ function multiline_prompt() {
 	echo -n ""
 }
 
+# Enable __git_ps1 to use a colored prompt.
+export GIT_PS1_SHOWCOLORHINTS=true
+
 #PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w:\$ "
-PS1="$(user_color)\u$b_green@$green\H$white:$cyan\w$white:\$(git_project)\$ "
+PS1="$(user_color)\u$b_green@$green\H$white:$cyan\w$white:\$(__git_ps1 ' [git: %s] ')\$ "
 
 export PS1
 
