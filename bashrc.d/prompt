@@ -66,7 +66,11 @@ function multiline_prompt() {
 export GIT_PS1_SHOWCOLORHINTS=true
 
 #PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w:\$ "
-PS1="$(user_color)\u$b_green@$green\H$white:$cyan\w$white:\$(__git_ps1 ' [git: %s] ')\$ "
+if [ $(type -t __git_ps1) ]; then
+	PS1="$(user_color)\u$b_green@$green\H$white:$cyan\w$white:\$(__git_ps1 ' [git: %s] ')\$ "
+else
+	PS1="$(user_color)\u$b_green@$green\H$white:$cyan\w$white:\$ "
+fi
 
 export PS1
 
