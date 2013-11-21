@@ -1,0 +1,36 @@
+#!/bin/bash
+
+function error() {
+        echo "ERROR:" $@ 1>&2
+}
+
+function usage() {
+        echo "Usage: `basename $0` <command> <files>"
+        echo "Commands:"
+        echo "   list|ls  : Lists file extended attributes."
+}
+
+function list_file_attributes() {
+        echo $1
+}
+
+function list_attributes() {
+        files=$@
+        for file in ${files[@]}; do
+                list_file_attributes $file
+        done
+}
+
+case "$1" in
+        list|ls)
+                shift
+                list_attributes $@
+        ;;
+        help)
+                usage
+        ;;
+        *)
+                error "Invalid command: $1"
+                exit 1
+        ;;
+esac
