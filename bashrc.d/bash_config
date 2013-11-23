@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# BASH history control:
+# History size (by BASH session): 5000 commands.
 HISTSIZE=5000
-HISTFILESIZE=5000
 
+# Size of file where history is saved (in lines).
+HISTFILESIZE=50000
+
+# Control: ignoreboth (includes 'ignorespace' —do not save commands
+# starting by space— and 'ignoredups' —do not save duplicates—).
+HISTCONTROL=ignoreboth
+
+# Timestamps in ISO format.
+HISTTIMEFORMAT='%F %X '
+
+# Editors.
+export EDITOR=vim
+export SVN_EDITOR=vim
