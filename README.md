@@ -13,9 +13,11 @@ Copy the files to any directory you want (I prefer put them into `~/.bashrc.d/`)
 Then, add the following lines into `~/.bashrc`:
 
 ```bash
-for file in ~/.bashrc.d/*; do
-  source $file
-done
+if [ -d ~/.bashrc.d ]; then
+  for file in ~/.bashrc.d/*; do
+    source $file
+  done
+fi
 ```
 ## Contribution ##
 
