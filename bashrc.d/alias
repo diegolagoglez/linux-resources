@@ -1,10 +1,10 @@
 #!/bin/bash
 
 if [ "$(ls --help | grep group-directories-first)" == "" ]; then
-	alias ls='ls --color=auto'
+	alias ls='ls --color=auto --time-style=long-iso'
 else
 	# If --group-directories-first is supported, add it to ls command.
-	alias ls='ls --color=auto --group-directories-first'
+	alias ls='ls --color=auto --group-directories-first --time-style=long-iso'
 fi
 
 alias ll='ls -lh'
@@ -12,7 +12,37 @@ alias la='ls -lah'
 alias l.='ls -dh .*'
 alias ll.='ls -ldh .*'
 alias df='df -Th'
+
+# Alias for dates.
+alias dateiso='date +%Y-%m-%dT%H:%M:%S.%N | cut -b 1-23'
+alias isodate='date +%FT%X%:z'
+
+# 'less' alias with more information.
 alias L='less -NR -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
 alias Ln='less -R -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
-alias dateiso='date +%Y-%m-%dT%H:%M:%S.%N | cut -b 1-23'
+alias lerr='less -R'
+
+# apt-get aliases
+alias as='apt-cache search'
+alias aw='apt-cache show'
+alias ai='sudo apt-get install'
+alias ar='sudo apt-get remove'
+alias ap='sudo apt-get purge'
+alias ac='sudo apt-get clean'
+alias aac='sudo apt-get autoclean'
+alias aar='sudo apt-get autoremove'
+alias a?="echo «apt-get» command aliases help:
+echo '    as: apt-cache search'
+echo '    aw: apt-cache show'
+echo '    ai: sudo apt-get install'
+echo '    ar: sudo apt-get remove'
+echo '    ap: sudp apt-get purge'
+echo '    ac: sudo apt-get clean'
+echo '   aac: sudo apt-get autoclean'
+echo '   aar: audo apt-get autoremove'
+echo '    a?: this help'
+"
+
+# Alias de sl... ¡prueba!
+alias sl='sl -e'
 
