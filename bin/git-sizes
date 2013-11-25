@@ -1,0 +1,31 @@
+#!/bin/bash
+
+PROJECT_DIR=.
+GIT_DIR=.git
+
+if [ ! -d $GIT_DIR ]; then
+	echo "ERROR: Not in a Git repository."
+	exit 1
+fi
+
+function sizes() {
+	if [ "$2" != "" ]; then
+		size=$(du -hs $1 --exclude $2)
+		bsize=$(du -bs $1 --exclude $2)
+	else
+		size=$(du -hs $1)
+		bsize=$(du -bs $1)
+	fi
+	repo_size=$(echo $size | cut -d' ' -f1)
+	repo_bsize=$(echo $bsize | cut -d' ' -f1)
+}
+
+sizes $PROJECT_DIR
+echo "Git repository size : $repo_size ($repo_bsize B)"
+
+sizes $GIT_DIR
+echo "Git directory size  : $repo_size ($repo_bsize B)"
+
+sizes $PROJECT_DIR $GIT_DIR
+echo "Source code size    : $repo_size ($repo_bsize B)"
+
