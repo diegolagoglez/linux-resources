@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function usage() {
-	echo "Usage: fdups <dir> [<exclude>]"
+	echo "Usage: fdups <dir> [<exclude-path>]"
 }
 
 function error() {
@@ -28,24 +28,36 @@ temp_file=$(mktemp --suffix=.fdups)
 temp_file2=$(mktemp --suffix=.fdups)
 temp_file3=$(mktemp --suffix=.fdups)
 
-if [ "$exclude" != "" ]; then
-	exclude="( ! -name $exclude )"
+if [ "$exclude" == "" ]; then
+	file_count=$(find $dir -type f \( ! -name . \) | wc -l)
 else
-	exclude=""
+	file_count=$(find $dir -type f \( ! -name . \) | grep -v $exclude | wc -l)
 fi
-
-file_count=$(find $dir -type f \( ! -name . \) $exclude | wc -l)
 
 modulus=$(($file_count / 100))
 
+if [ $modulus -eq 0 ]; then
+	modulus=1
+fi
+
 let counter=0
-find $dir -type f \( ! -name . \) $exclude | while read; do
-	counter=$((counter+1))
-	md5sum "$REPLY" >> $temp_file
-	if [ $(($counter % $modulus)) == 0 ]; then
-		echo_stderr -n "."
-	fi
-done
+if [ "$exclude" == "" ]; then
+	find $dir -type f \( ! -name . \) | while read; do
+		counter=$((counter+1))
+		md5sum "$REPLY" >> $temp_file
+		if [ $(($counter % $modulus)) == 0 ]; then
+			echo_stderr -n "."
+		fi
+	done
+else
+	find $dir -type f \( ! -name . \) | grep -v $exclude | while read; do
+		counter=$((counter+1))
+		md5sum "$REPLY" >> $temp_file
+		if [ $(($counter % $modulus)) == 0 ]; then
+			echo_stderr -n "."
+		fi
+	done
+fi
 
 echo_stderr -n "."
 
@@ -57,18 +69,34 @@ cat $temp_file2 | uniq -w 32 > $temp_file
 
 echo_stderr -n "."
 
+file_count=$(wc -l $temp_file | cut -d' ' -f1)
+modulus=$(($file_count / 100))
+
+if [ $modulus -eq 0 ]; then
+	modulus=1
+fi
+
+let counter=0
 cat $temp_file | while read; do
+	counter=$((counter+1))
 	md5=$(echo "$REPLY" | cut -d' ' -f1)
 	file=$(echo "$REPLY" | cut -d' ' -f3)
 	file_count=$(cat $temp_file2 | grep $md5 | wc -l)
 	echo "$file_count $file" >> $temp_file3
+	if [ $(($counter % $modulus)) == 0 ]; then
+		echo_stderr -n "."
+	fi
 done
 
-echo_stderr
+echo_stderr -n "."
 
 cat $temp_file3 | sort -r -g
+
+echo_stderr -n "."
 
 rm $temp_file
 rm $temp_file2
 rm $temp_file3
+
+echo_stderr
 
