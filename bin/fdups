@@ -81,8 +81,9 @@ cat $temp_file | while read; do
 	counter=$((counter+1))
 	md5=$(echo "$REPLY" | cut -d' ' -f1)
 	file=$(echo "$REPLY" | cut -d' ' -f3)
+	file_size=$(stat --format=%s "$file")
 	file_count=$(cat $temp_file2 | grep $md5 | wc -l)
-	echo "$file_count $file" >> $temp_file3
+	echo "$file_count $md5 $file_size $file" >> $temp_file3
 	if [ $(($counter % $modulus)) == 0 ]; then
 		echo_stderr -n "."
 	fi
