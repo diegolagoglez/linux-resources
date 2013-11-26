@@ -1,0 +1,74 @@
+#!/bin/bash
+
+function usage() {
+	echo "Usage: fdups <dir> [<exclude>]"
+}
+
+function error() {
+	echo "ERROR: $1" 1>&2
+	if [ ! -z $3 ]; then
+		usage
+	fi
+	if [ ! $2 -eq 0 ]; then
+		exit $2
+	fi
+}
+
+function echo_stderr() {
+	echo $@ 1>&2
+}
+
+if [ "$1" == "" ]; then
+	error "Bad parameters." 1 true
+fi
+
+dir="$1"
+exclude="$2"
+temp_file=$(mktemp --suffix=.fdups)
+temp_file2=$(mktemp --suffix=.fdups)
+temp_file3=$(mktemp --suffix=.fdups)
+
+if [ "$exclude" != "" ]; then
+	exclude="( ! -name $exclude )"
+else
+	exclude=""
+fi
+
+file_count=$(find $dir -type f \( ! -name . \) $exclude | wc -l)
+
+modulus=$(($file_count / 100))
+
+let counter=0
+find $dir -type f \( ! -name . \) $exclude | while read; do
+	counter=$((counter+1))
+	md5sum "$REPLY" >> $temp_file
+	if [ $(($counter % $modulus)) == 0 ]; then
+		echo_stderr -n "."
+	fi
+done
+
+echo_stderr -n "."
+
+cat $temp_file | sort > $temp_file2
+
+echo_stderr -n "."
+
+cat $temp_file2 | uniq -w 32 > $temp_file
+
+echo_stderr -n "."
+
+cat $temp_file | while read; do
+	md5=$(echo "$REPLY" | cut -d' ' -f1)
+	file=$(echo "$REPLY" | cut -d' ' -f3)
+	file_count=$(cat $temp_file2 | grep $md5 | wc -l)
+	echo "$file_count $file" >> $temp_file3
+done
+
+echo_stderr
+
+cat $temp_file3 | sort -r
+
+rm $temp_file
+rm $temp_file2
+rm $temp_file3
+
