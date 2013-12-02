@@ -91,7 +91,11 @@ function user_color() {
 	if [ $(id -u) == 0 ]; then
 		echo $i_white$bg_red
 	else
-		echo $i_blue
+		if [ -n "$I_AM_AT_CONSOLE" ]; then
+			echo $i_blue
+		else
+			echo $i_purple
+		fi
 	fi
 }
 
