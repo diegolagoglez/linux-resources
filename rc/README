@@ -1,0 +1,7 @@
+Configuration files for command line utilities
+----------------------------------------------
+
+Link this files into home with:
+
+ln -s ~/projects/personal-bash-tools/rc/rcfile ~/.rcfile
+
