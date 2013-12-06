@@ -1,0 +1,123 @@
+#!/bin/bash
+
+interface=eth1
+network=192.168.1.0/24
+
+mac=00:14:00:28:bb:ff
+
+services=(ssh smbd)
+
+function check_command() {
+	if [ "$(which $1)" == "" ]; then
+		echo "ERROR: Command '$1' is needed but not installed."
+		exit 1
+	fi
+}
+
+function usage() {
+	echo "n - Command to control several net functions."
+	echo "Usage: n <option>"
+	echo "Options:"
+	echo "  on                       : Starts Network Manager."
+	echo "  off                      : Stops Network Manager."
+	echo '  map [<address/mask>]     : Scans the network (with nmap to local addresses 192.168.1.0/24).'
+	echo "  ss                       : Stop services (currently sshd and smbd)."
+	echo '  mac [<mac>|reset|random] : Change MAC address to <mac>, resets it or puts a random mac.'
+	echo '  lswifi|l                 : List detected wifi networks.'
+}
+
+function lswifi() {
+	iface=$1
+	command="sudo iwlist $iface scanning"
+	sort="sort -f -k 2.1"
+	$command | grep Cell -A 4 | tr '\n' ' ' | sed 's/--/\n/g' | sed 's/\"/\ /g' | awk '{print $5" "$7" ("$14}' | $sort
+}
+
+function print_lswifi_header() {
+	echo "BSSID             ESSID (Channel)"
+	echo "--------------------------------------"
+}
+
+function net_on() {
+	echo "Setting interface $interface to mode managed..."
+	sudo iwconfig $interface mode managed
+	echo "Starting Network Manager..."
+	sudo service network-manager start
+}
+
+function net_off() {
+	echo "Stopping Network Manager..."
+	sudo service network-manager stop
+}
+
+function net_map() {
+	check_command nmap
+	echo "Scanning network '$network'..."
+	sudo nmap -O $network $@
+}
+
+function stop_services() {
+	for service in ${services[@]}; do
+		echo "Stopping service '$service'..."
+		sudo service $service stop
+	done
+}
+
+function get_current_mac_address() {
+	check_command macchanger
+	macchanger --show $1 | grep Permanent | awk '{print $3}'
+}
+
+function change_mac() {
+	current_mac=$(get_current_mac_address $interface)
+	if [ "$1" == "reset" ]; then
+		echo "Reseting MAC address from '$current_mac' of '$interface'..."
+		sudo macchanger -p $interface
+		current_mac=$(get_current_mac_address $interface)
+		echo "Permanent MAC address is '$current_mac'."
+	elif [ "$1" == "random" ]; then
+		echo "Setting a random MAC address from '$current_mac' on '$interface'..."
+		sudo macchanger -A $interface
+		current_mac=$(get_current_mac_address $interface)
+		echo "New MAC address is '$current_mac'."
+	elif [ "$1" != "" ]; then
+		echo "Setting MAC address from '$current_mac' to '$1' on '$interface'..."
+		sudo maccchanger -m $1 $interface
+	else
+		echo "Setting MAC address from '$current_mac' to '$mac' on '$interface'..."
+		sudo macchanger -m $mac $interface
+	fi
+	return
+}
+
+case "$1" in
+	on)
+		net_on
+	;;
+	off)
+		net_off
+	;;
+	map)
+		shift
+		if [ "$1" != "" ]; then
+			network=$1
+		fi
+		net_map $@
+	;;
+	ss)
+		stop_services
+	;;
+	mac)
+		shift
+		change_mac $@
+	;;
+	lswifi|l)
+		if [ "$1" == "lswifi" ]; then
+			print_lswifi_header
+		fi
+		lswifi $interface
+	;;
+	*)
+		usage
+	;;
+esac
