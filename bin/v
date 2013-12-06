@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ "$(which ccze)" == "" ]; then
+	echo "ERROR: ccze utility is not installed."
+	exit 1
+fi
+
+if [ "$1" == "" ]; then
+	echo "View colored files — Diego Lago <diegolagoglez@gmail.com>"
+	echo "Usage: `basename $0` <file>"
+	exit 1
+fi
+
+cat "$1" | ccze -A | less -r
+
