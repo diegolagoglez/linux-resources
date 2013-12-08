@@ -1,0 +1,12 @@
+[user]
+	name = Diego
+	email = diego.lago.gonzalez@gmail.com
+[core]
+	editor = vim
+[color]
+	ui = true
+[alias]
+	ci = commit
+	st = status
+	s = status -s
+	b = branch
