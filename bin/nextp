@@ -1,0 +1,64 @@
+#!/usr/bin/php
+<?php
+
+	function error($msg, $exit = 0) {
+		echo "ERROR: $msg\n";
+		if($exit != 0)
+			exit($exit);
+	}
+	
+	function debug($msg) {
+		echo "DEBUG: $msg\n";
+	}
+	
+	function usage() {
+		echo "nextp - Next Permuntation\n";
+		echo "Usage: nextp <value> <range>\n";
+	}
+	
+	function next_of($char, $range, &$carry = false) {
+		debug("char = $char");
+		debug("range = $range");
+		$range = str_split($range);
+		foreach($range as $key => $value) {
+			debug("key = $key -- value = $value");
+			if($char == $value) {
+				$error = false;
+				if($key == count($range)-1) {
+					$char = $range[0];
+					$carry = true;
+				} else {
+					$char = $range[$key+1];
+				}
+				break;
+			} else {
+				$error = true;
+			}
+		}
+		if($error) {
+			error("Value not in range.", 2);
+		}
+		return $char;
+	}
+
+	if(count($argv) != 3) {
+		error("Invalid parameters.");
+		usage();
+		exit(1);
+	}
+	
+	$value = $argv[1];
+	$range = $argv[2];
+	$carry = false;
+	
+	$char = next_of($value[count($value)-1], $range, $carry);
+	
+	if($carry) {
+		error("no");
+	} else {
+		$value[strlen($value)-1] = $char;
+	}
+	
+	echo $value."\n";
+
+?>
