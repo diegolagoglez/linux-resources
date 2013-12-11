@@ -1,0 +1,126 @@
+" Archivo personalizado de configuración de vim
+" =============================================
+
+" General
+" -------
+ 
+" Número de líneas de historial para deshacer.
+set history=200
+
+" Plugins para tipos de archivos (no se lo que es, pero lo activo).
+filetype plugin on
+filetype indent on
+
+" Autocarga de archivos cuando se modifican.
+set autoread
+
+" Combinaciones de teclas extra (no se cómo funcionan exactamente, pero lo activo para probar).
+let mapleader = ","
+let g:mapleader = ","
+
+" Combinaciones de teclas:
+
+" Guardar:
+nmap <leader>s :w!<cr>
+
+" Salir
+nmap <leader>q :q<cr>
+
+" Interfaz
+" --------
+
+" Tamaño de la tabulación de 4 espacios.
+set tabstop=4
+
+" Números de línea.
+set number
+
+" Mostrar la regla (posición del cursor y más información).
+set ruler
+
+" Ignorar mayúsculas/minúsculas en las búsquedas.
+set ignorecase
+
+" Mejorar búsquedas con mayúsculas/minúsculas.
+set smartcase
+
+" Marcar coincidencias.
+set hlsearch
+
+" Mostrar el paréntesis contrario al actual.
+set showmatch
+
+" Colores
+" -------
+
+syntax enable
+
+"colorscheme desert
+"set background=dark
+
+" UTF-8
+set encoding=utf-8
+
+" Autoindentación.
+set ai
+
+" Indentación inteligente.
+set si
+
+" Ajustar líneas.
+set wrap
+
+" Línea de estado.
+set laststatus=2
+
+" Formato de la línea de estado.
+set statusline=   " Limpiar la línea de estado
+set statusline+=%n\/                             " buffer number
+set statusline+=%{bufnr('$')}\                   " buffer count
+set statusline+=%F\                              " file name
+set statusline+=[%{FileSize()}\|%L\ L]\          " size & line count
+set statusline+=[%{strlen(&ft)?&ft:'text'}\|     " filetype
+set statusline+=%{strlen(&fenc)?&fenc:&enc}\|    " encoding
+set statusline+=%{&fileformat}]\                 " file format
+set statusline+=%h%m%r%w                         " flags
+set statusline+=%=                               " right align
+set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
+set statusline+=%b,0x%-8B\                       " current char
+set statusline+=%-14.(%l,%c%V%)\ %<%P            " offset
+
+" Más cosas
+" ---------
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+" Remember info about open buffers on close
+set viminfo^=%
+
+" Funciones de ayuda
+" ------------------
+
+" Returns true if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    en
+    return ''
+endfunction
+
+function! FileSize()
+	let bytes = getfsize(expand("%:p"))
+	if bytes <= 0
+		return ""
+	endif
+	if bytes > 1048576
+		return (bytes / 1048576) . " M"
+	elseif bytes > 1024
+		return (bytes / 1024) . " K"
+	else
+		return bytes . " B"
+	endif
+endfunction
+
