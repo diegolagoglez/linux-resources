@@ -24,12 +24,16 @@ export PATH=$PATH:~/bin
 
 ## Environment Installation ##
 
-Copy the files to any directory you want (I prefer put them into `~/.bashrc.d/`).
+Copy the files into `~/projects/personal-bash-tools/bashrc.d` to any directory you want (I prefer put them into `~/.bashrc.d/`) or link that directory into home with:
+
+```bash
+user@host:~:$ ln -s ~/projects/personal-bash-tools/bashrc.d .bashrc.d
+```
 
 Then, add the following lines into `~/.bashrc`:
 
 ```bash
-if [ -d ~/.bashrc.d ]; then
+if [ -d ~/.bashrc.d/ ]; then
   for file in ~/.bashrc.d/*; do
     source $file
   done
