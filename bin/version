@@ -4,7 +4,14 @@ function usage() {
 	echo "version v0.1 - Utility to control projects versions."
 	echo "version <command> [options]"
 	echo "Commands:"
-	echo "  inc   : Increments version."
+	echo "      inc: Increments version."
+	echo " inc-part: Increments one version part (major, minor...)."
+	echo "     file: Shows version file path used."
+	echo "     view: Shows version."
+	echo "    xview: Shows extended version."
+	echo "     help: Shows this help."
+	echo "Options:"
+	echo "  Nothing yet."
 	
 }
 
@@ -87,6 +94,12 @@ function inc_version() {
 	echo
 }
 
+function inc_part() {
+	local count=$(count_version_parts)
+	local version=($(version_parts))
+	error Not yet implemented.
+}
+
 find_version_file
 
 function main() {
@@ -94,6 +107,10 @@ function main() {
 		inc)
 			new_version=$(inc_version)
 			echo $new_version > $version_file
+		;;
+		inc-part)
+			shift
+			inc_part $@
 		;;
 		file)
 			echo $version_file
