@@ -11,8 +11,17 @@ function usage() {
 	echo "    xview: Shows extended version."
 	echo "     help: Shows this help."
 	echo "Options:"
-	echo "  Nothing yet."
+	echo " -v       : Be verbose."
+	echo " -f <file>: Specify version file."
 	
+}
+
+verbose=no
+
+function log() {
+	if [ "$verbose" != "no" ]; then
+		echo $@
+	fi
 }
 
 function error() {
