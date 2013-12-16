@@ -11,3 +11,4 @@
 	s = status -s
 	b = branch
 	l = log --oneline
+	aliases = config --global --list
