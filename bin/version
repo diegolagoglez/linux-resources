@@ -25,14 +25,17 @@ function find_version_file() {
 	fi
 }
 
-function version_parts() {
+function count_version_parts() {
 	echo $(cat $version_file | tr '.' ' ' | wc -w)
 }
 
+function version_parts() {
+	echo $(cat $version_file | tr '.' ' ')
+}
+
 function extended_version_view() {
-	local count=$(version_parts)
-	local version="$(cat $version_file | tr '.' ' ')"
-	local version=($version)
+	local count=$(count_version_parts)
+	local version=($(version_parts))
 	case $count in
 		1)
 			echo "Mayor version: ${version[0]}"
@@ -67,9 +70,8 @@ function extended_version_view() {
 }
 
 function inc_version() {
-	local version="$(cat $version_file | tr '.' ' ')"
-	local count=$(echo $version | wc -w)
-	local version=($version)
+	local count=$(count_version_parts)
+	local version=($(version_parts))
 	version[$count-1]=$((${version[$count-1]}+1))
 	for i in $(seq 0 $(($count-1))); do
 		echo -n ${version[$i]}
