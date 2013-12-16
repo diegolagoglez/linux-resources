@@ -30,7 +30,12 @@ function count_version_parts() {
 }
 
 function version_parts() {
-	echo $(cat $version_file | tr '.' ' ')
+	if [ "$1" == "full" ]; then
+		echo $(cat $version_file | tr '.' ' ')
+	else
+		# Strips off codename
+		echo $(cat $version_file | cut -d' ' -f1 | tr '.' ' ')
+	fi
 }
 
 function extended_version_view() {
@@ -84,25 +89,30 @@ function inc_version() {
 
 find_version_file
 
-case "$1" in
-	inc)
-		new_version=$(inc_version)
-		echo $new_version > $version_file
-	;;
-	file)
-		echo $version_file
-	;;
-	view)
-		cat $version_file
-	;;
-	xview)
-		extended_version_view
-	;;
-	help)
-		usage
-	;;
-	*)
-		usage
-		exit 1
-	;;
-esac
+function main() {
+	case "$1" in
+		inc)
+			new_version=$(inc_version)
+			echo $new_version > $version_file
+		;;
+		file)
+			echo $version_file
+		;;
+		view)
+			cat $version_file
+		;;
+		xview)
+			extended_version_view
+		;;
+		help)
+			usage
+		;;
+		*)
+			usage
+			exit 1
+		;;
+	esac
+}
+
+main $@
+
