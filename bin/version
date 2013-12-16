@@ -25,9 +25,13 @@ function find_version_file() {
 	fi
 }
 
+function version_parts() {
+	echo $(cat $version_file | tr '.' ' ' | wc -w)
+}
+
 function extended_version_view() {
+	local count=$(version_parts)
 	local version="$(cat $version_file | tr '.' ' ')"
-	local count=$(echo $version | wc -w)
 	local version=($version)
 	case $count in
 		1)
@@ -63,6 +67,16 @@ function extended_version_view() {
 }
 
 function inc_version() {
+	local version="$(cat $version_file | tr '.' ' ')"
+	local count=$(echo $version | wc -w)
+	local version=($version)
+	version[$count-1]=$((${version[$count-1]}+1))
+	for i in $(seq 0 $(($count-1))); do
+		echo -n ${version[$i]}
+		if [ $i -lt $(($count-1)) ]; then
+			echo -n .
+		fi
+	done
 	echo
 }
 
@@ -70,7 +84,8 @@ find_version_file
 
 case "$1" in
 	inc)
-		inc_version
+		new_version=$(inc_version)
+		echo $new_version > $version_file
 	;;
 	file)
 		echo $version_file
