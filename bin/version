@@ -1,0 +1,91 @@
+#!/bin/bash
+
+function usage() {
+	echo "version v0.1 - Utility to control projects versions."
+	echo "version <command> [options]"
+	echo "Commands:"
+	echo "  inc   : Increments version."
+	
+}
+
+function error() {
+	echo ERROR: $@ 1>&2
+}
+
+version_file=
+
+function find_version_file() {
+	if [ -f "./VERSION" ]; then
+		version_file="./VERSION"
+	elif [ -f "$VERSION_FILE" ]; then
+		version_file="$VERSION_FILE"
+	else
+		error "No version file found."
+		exit 2
+	fi
+}
+
+function extended_version_view() {
+	local version="$(cat $version_file | tr '.' ' ')"
+	local count=$(echo $version | wc -w)
+	local version=($version)
+	case $count in
+		1)
+			echo "Mayor version: ${version[0]}"
+		;;
+		2)
+			echo "Mayor version: ${version[0]}"
+			echo "Minor version: ${version[1]}"
+		;;
+		3)
+			echo "Mayor version : ${version[0]}"
+			echo "Middle version: ${version[1]}"
+			echo "Mayor version : ${version[2]}"
+		;;
+		4)
+			echo "Mayor version : ${version[0]}"
+			echo "Middle version: ${version[1]}"
+			echo "Mayor version : ${version[2]}"
+			echo "Build         : ${version[3]}"
+		;;
+		5)
+			echo "Mayor version : ${version[0]}"
+			echo "Middle version: ${version[1]}"
+			echo "Mayor version : ${version[2]}"
+			echo "Build         : ${version[3]}"
+			echo "Codename      : ${version[4]}"
+		;;
+		*)
+			error "Invalid version file format."
+			exit 3
+		;;
+	esac
+}
+
+function inc_version() {
+	echo
+}
+
+find_version_file
+
+case "$1" in
+	inc)
+		inc_version
+	;;
+	file)
+		echo $version_file
+	;;
+	view)
+		cat $version_file
+	;;
+	xview)
+		extended_version_view
+	;;
+	help)
+		usage
+	;;
+	*)
+		usage
+		exit 1
+	;;
+esac
