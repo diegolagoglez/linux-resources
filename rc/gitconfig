@@ -12,3 +12,4 @@
 	b = branch
 	l = log --oneline
 	aliases = config --global --list
+	graph = log --graph --oneline
