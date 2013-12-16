@@ -112,6 +112,21 @@ function inc_part() {
 find_version_file
 
 function main() {
+
+	# Process options.
+	while getopts "v:f" option; do
+		case $option in
+			v)
+			;;
+			f)
+			;;
+			*)
+				error "Invalid option: $option"
+			;;
+		esac
+	done
+
+	# Process parameters.
 	case "$1" in
 		inc)
 			new_version=$(inc_version)
