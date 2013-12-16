@@ -10,3 +10,4 @@
 	st = status
 	s = status -s
 	b = branch
+	l = log --oneline
