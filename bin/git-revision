@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# http://stackoverflow.com/questions/677436/how-to-get-the-git-commit-count
+# Should be: git rev-list HEAD --count, but only in git 1.8.x.
+git rev-list HEAD | wc -l
+
