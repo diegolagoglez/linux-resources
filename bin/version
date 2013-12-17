@@ -2,7 +2,7 @@
 
 function usage() {
 	echo "version v0.1 - Utility to control projects versions."
-	echo "version <command> [options]"
+	echo "version [options] <command>"
 	echo "Commands:"
 	echo "      inc: Increments version."
 	echo " inc-part: Increments one version part (major, minor...)."
@@ -31,6 +31,10 @@ function error() {
 version_file=
 
 function find_version_file() {
+	if [ "$version_file" != "" ]; then
+		return
+	fi
+
 	if [ -f "./VERSION" ]; then
 		version_file="./VERSION"
 	elif [ -f "$VERSION_FILE" ]; then
@@ -109,22 +113,26 @@ function inc_part() {
 	error Not yet implemented.
 }
 
-find_version_file
-
 function main() {
 
 	# Process options.
-	while getopts "v:f" option; do
+	while getopts "vf:" option "$@"; do
 		case $option in
 			v)
+				verbose=yes
 			;;
 			f)
-			;;
-			*)
-				error "Invalid option: $option"
+				version_file=$OPTARG
+				if [ ! -f "$version_file" ]; then
+					error "Version file not found: $version_file"
+					exit 4
+				fi
 			;;
 		esac
+		shift $(($OPTIND-1))
 	done
+
+	find_version_file
 
 	# Process parameters.
 	case "$1" in
