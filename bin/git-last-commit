@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# View last commit id.
+git log HEAD^..HEAD --oneline | cut -d' ' -f1
+
