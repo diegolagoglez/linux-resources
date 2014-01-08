@@ -12,7 +12,7 @@ HISTFILESIZE=50000
 HISTCONTROL=ignoreboth
 
 # Timestamps in ISO format.
-HISTTIMEFORMAT='%F %X '
+HISTTIMEFORMAT='%F %T '
 
 # Editors.
 export EDITOR=vim
