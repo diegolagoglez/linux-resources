@@ -14,3 +14,4 @@
 	l = log --oneline
 	aliases = config --global --list
 	graph = log --graph --oneline
+	g = log --graph --oneline
