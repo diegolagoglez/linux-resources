@@ -1,0 +1,5 @@
+# Screen GNU utility configuration file.
+
+# Use BASH as default shell.
+shell "/bin/bash"
+
