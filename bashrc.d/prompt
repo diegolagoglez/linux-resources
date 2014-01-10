@@ -118,6 +118,12 @@ function under_screen() {
 	fi
 }
 
+function construct_git_prompt() {
+	if [ $(type -t __git_ps1) ]; then
+		PS1="$PS1\$(__git_ps1 ' [git: $i_purple%s$white] ')"
+	fi	
+}
+
 # Enable __git_ps1 to use a colored prompt (as of version 1.8.1).
 export GIT_PS1_SHOWCOLORHINTS=true
 
@@ -126,9 +132,7 @@ export GIT_PS1_SHOWCOLORHINTS=true
 
 PS1="$(under_screen)${debian_chroot:+($debian_chroot)}$(user_color)\u$i_yellow@$i_green\H$white:$i_cyan\w$white:"
 
-if [ $(type -t __git_ps1) ]; then
-	PS1="$PS1\$(__git_ps1 ' [git: $i_purple%s$white] ')"
-fi
+construct_git_prompt
 
 PS1="$PS1\\$ $reset"
 
