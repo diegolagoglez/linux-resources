@@ -105,10 +105,16 @@ function multiline_prompt() {
 	echo -n ""
 }
 
-# Prints terminal (TERM) if we are under screen gnu utility.
+# Prints terminal (TERM) if we are under screen or tmux utilities.
 function under_screen() {
 	if [ "$TERM" == "screen" ]; then
-		echo -n "[screen:$WINDOW] "
+		if [[ ! -z "$TMUX" ]]; then
+			# Under tmux, not screen.
+			echo -n "[tmux:$(echo $TMUX_PANE | cut -c2-)]"
+		else
+			# Under screen.
+			echo -n "[screen:$WINDOW] "
+		fi
 	fi
 }
 
