@@ -110,7 +110,7 @@ function under_screen() {
 	if [ "$TERM" == "screen" ]; then
 		if [[ ! -z "$TMUX" ]]; then
 			# Under tmux, not screen.
-			echo -n "[tmux:$(echo $TMUX_PANE | cut -c2-)]"
+			echo -n "[tmux:$(echo $TMUX_PANE | cut -c2-)] "
 		else
 			# Under screen.
 			echo -n "[screen:$WINDOW] "
