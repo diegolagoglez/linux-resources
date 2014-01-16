@@ -32,6 +32,12 @@ nmap <leader>q :q<cr>
 " Tamaño de la tabulación de 4 espacios.
 set tabstop=4
 
+" Tamaño de TAB cuando escribes cosas (el mismo que tabstop).
+set shiftwidth=4
+
+" Smart tabs
+set smarttab
+
 " Números de línea.
 set number
 
