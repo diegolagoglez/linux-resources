@@ -23,10 +23,10 @@ function check_git_dir() {
 function sizes() {
 	if [ "$2" != "" ]; then
 		size=$(du -hs $1 --exclude $2)
-		bsize=$(du -bs $1 --exclude $2)
+		bsize=$(du -s --block-size=1 $1 --exclude $2)
 	else
 		size=$(du -hs $1)
-		bsize=$(du -bs $1)
+		bsize=$(du -s --block-size=1 $1)
 	fi
 	repo_size=$(echo $size | cut -d' ' -f1)
 	repo_bsize=$(echo $bsize | cut -d' ' -f1)
