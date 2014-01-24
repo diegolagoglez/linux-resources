@@ -3,3 +3,5 @@
 # Use BASH as default shell.
 shell "/bin/bash"
 
+# Message line
+hardstatus alwayslastline "%n: %t [%w] %=%H | %l | %Y-%m-%d %0c:%s"
