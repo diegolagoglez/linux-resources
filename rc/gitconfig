@@ -16,3 +16,4 @@
 	graph = log --graph --oneline
 	g = log --graph --oneline
 	ba = branch -a
+	lg = log --graph --pretty=\"%Cred%h %Cgreen%ai%Creset %s%C(yellow)%d %Cblue[%an]\"
