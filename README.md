@@ -1,10 +1,8 @@
-# Personal BASH Tools and Configuration Files #
+# Linux Console Resources #
 
 ## Introduction ##
 
-This project includes all my personal files BASH tools and files to configure BASH environment.
-
-The enviroment configuration is separated into several files: one for alias, one for BASH config, one for prompt an so on.
+This project includes all my Linux console resources (tools, configuration files…) to personalize my environment.
 
 ## Tools Installation ##
 
@@ -13,7 +11,7 @@ Make a link into your home directory to the binary tools directory. Example:
 ```bash
 user@host:~:$ pwd
 /home/user
-user@host:~:$ ln -s ~/projects/personal-bash-tools/bin
+user@host:~:$ ln -s ~/projects/linux-console-resources/bin
 ```
 
 Insert, if needed, your home bin path into PATH environment variable:
@@ -24,10 +22,10 @@ export PATH=$PATH:~/bin
 
 ## Environment Installation ##
 
-Copy the files into `~/projects/personal-bash-tools/bashrc.d` to any directory you want (I prefer put them into `~/.bashrc.d/`) or link that directory into home with:
+Copy the files into `~/projects/linux-console-resources/bashrc.d` to any directory you want (I prefer put them into `~/.bashrc.d/`) or link that directory into home with:
 
 ```bash
-user@host:~:$ ln -s ~/projects/personal-bash-tools/bashrc.d .bashrc.d
+user@host:~:$ ln -s ~/projects/linux-console-resources/bashrc.d .bashrc.d
 ```
 
 Then, add the following lines into `~/.bashrc`:
@@ -39,6 +37,17 @@ if [ -d ~/.bashrc.d/ ]; then
   done
 fi
 ```
+## Other files ##
+
+There are other files in this repository to configure some commands, like gitconfig, inputrc… all of them under `rc` directory.
+
+This files should be linked at `/home/user` with their corresponding names, e.g.:
+
+```bash
+user@host:~:$ ln -s projects/linux-console-resources/rc/gitconfig .gitconfig
+user@host:~:$ ln -s projects/linux-console-resources/rc/inputrc .inputrc
+```
+
 ## Contribution ##
 
 You can use and/or contribute to this configuration but keep in mind the KISS principle.
