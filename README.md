@@ -1,8 +1,13 @@
-# Linux Console Resources #
+# Linux Resources #
 
 ## Introduction ##
 
-This project includes all my Linux console resources (tools, configuration files…) to personalize my environment.
+This project has all my Linux resources (tools, scripts, configuration files…) to personalize my environment, which includes:
+
+* `bashrc.d`: BASH configuration files.
+* `bin`: Binary tools and scripts.
+* `rc`: Linux console configuration files.
+* `sublime-text`: Sublime Text configuration and customization files.
 
 ## Tools Installation ##
 
@@ -47,6 +52,7 @@ This files should be linked at `/home/user` with their corresponding names, e.g.
 user@host:~:$ ln -s projects/linux-console-resources/rc/gitconfig .gitconfig
 user@host:~:$ ln -s projects/linux-console-resources/rc/inputrc .inputrc
 ```
+Also, there are more files to configure other appliactions like Sublime Text. This other files should be linked in their corresponding places.
 
 ## Contribution ##
 
