@@ -1,0 +1,38 @@
+#!/bin/bash
+
+function usage {
+	echo "$(basename $0) - GNU Screen wrapper - Diego Lago <diego.lago.gonzalez@gmail.com>"
+	echo "Usage: $(basename $0) [options]"
+	echo "Options:"
+	echo "  l : List sessions."
+	echo "  h : Show this help."
+	echo "  * : Start screen with the given command."
+	echo "With no options screen loads the last session or creates one if there is none."
+}
+
+function check_for_screen {
+	which screen > /dev/null 2>&1
+	if [ $? != 0 ]; then
+		echo "ERROR: GNU Screen not found."
+		exit 1
+	fi
+}
+
+check_for_screen
+
+if [ "$1" != "" ]; then
+	case "$1" in
+		l)
+			screen -list
+		;;
+		h)
+			usage
+		;;
+		*)
+			screen $@
+		;;
+	esac
+else
+	screen -dRR
+fi
+
