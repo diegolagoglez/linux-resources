@@ -1,12 +1,15 @@
 #!/bin/bash
 
+SCREEN_SESSIONS_PATH=/var/run/screen/S-$(whoami)
+
 function usage {
 	echo "$(basename $0) - GNU Screen wrapper - Diego Lago <diego.lago.gonzalez@gmail.com>"
 	echo "Usage: $(basename $0) [options]"
 	echo "Options:"
 	echo "  l : List sessions."
+	echo "  L : List sessions as done by screen -list."
 	echo "  h : Show this help."
-	echo "  * : Start screen with the given command."
+	echo "  * : Start screen with the given command. If the command is a session id, screen starts it."
 	echo "With no options screen loads the last session or creates one if there is none."
 }
 
@@ -18,18 +21,35 @@ function check_for_screen {
 	fi
 }
 
+function launch_or_reatach {
+	local session_id="$1"
+	if [ -e "$SCREEN_SESSIONS_PATH/$session_id" ]; then
+		echo "Reataching to $session_id..."
+		screen -r $session_id
+	else
+		screen $@
+	fi
+}
+
+function list_sessions {
+	screen -list | tail -n +2 | head -n -2 | while read; do echo $REPLY; done
+}
+
 check_for_screen
 
 if [ "$1" != "" ]; then
 	case "$1" in
 		l)
+			list_sessions
+		;;
+		L)
 			screen -list
 		;;
 		h)
 			usage
 		;;
 		*)
-			screen $@
+			launch_or_reatach $@
 		;;
 	esac
 else
