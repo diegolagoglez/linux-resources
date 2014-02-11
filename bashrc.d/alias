@@ -31,16 +31,16 @@ alias ap='sudo apt-get purge'
 alias ac='sudo apt-get clean'
 alias aac='sudo apt-get autoclean'
 alias aar='sudo apt-get autoremove'
-alias a?="echo «apt-get» command aliases help:
-echo '    as: apt-cache search'
-echo '    aw: apt-cache show'
-echo '    ai: sudo apt-get install'
-echo '    ar: sudo apt-get remove'
-echo '    ap: sudp apt-get purge'
-echo '    ac: sudo apt-get clean'
-echo '   aac: sudo apt-get autoclean'
-echo '   aar: audo apt-get autoremove'
-echo '    a?: this help'
+alias a?="echo apt-get command aliases help:
+echo '  as : apt-cache search'
+echo '  aw : apt-cache show'
+echo '  ai : sudo apt-get install'
+echo '  ar : sudo apt-get remove'
+echo '  ap : sudp apt-get purge'
+echo '  ac : sudo apt-get clean'
+echo ' aac : sudo apt-get autoclean'
+echo ' aar : audo apt-get autoremove'
+echo '  a? : this help'
 "
 
 # Alias de sl... ¡prueba!
