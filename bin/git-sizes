@@ -1,24 +1,6 @@
 #!/bin/bash
 
-PROJECT_DIR=.
-GIT_DIR=.git
-
-function find_git_base_dir() {
-	PROJECT_DIR=$(pwd)
-	while [ ! -d $PROJECT_DIR/$GIT_DIR -a $PROJECT_DIR != '/' ]; do
-		PROJECT_DIR=$(dirname $PROJECT_DIR)
-	done
-}
-
-function check_git_dir() {
-	if [ ! -d $GIT_DIR ]; then
-		find_git_base_dir
-		if [ "$PROJECT_DIR" == "/" ]; then
-			echo "ERROR: Not in a Git repository: $(pwd)"
-			exit 1
-		fi
-	fi
-}
+source ~/bin/git-tools
 
 function sizes() {
 	if [ "$2" != "" ]; then
