@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This file should be located at '~/bin'.
+
 FILE_NAME="git-tools"
 
 if [ "$(basename $0)" == "$FILE_NAME" ]; then
