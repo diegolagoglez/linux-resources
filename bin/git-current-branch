@@ -1,4 +1,7 @@
 #!/bin/bash
 
-git rev-parse --abbrev-ref HEAD
+source ~/bin/git-tools
 
+check_git_dir
+
+git rev-parse --abbrev-ref HEAD
