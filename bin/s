@@ -8,6 +8,7 @@ function usage {
 	echo "Options:"
 	echo "  l : List sessions."
 	echo "  L : List sessions as done by screen -list."
+	echo "  k : Kills session (not yet implemented)."
 	echo "  h : Show this help."
 	echo "  * : Start screen with the given command. If the command is a session id, screen starts it."
 	echo "With no options screen loads the last session or creates one if there is none."
@@ -35,6 +36,25 @@ function list_sessions {
 	screen -list | tail -n +2 | head -n -2 | while read; do echo $REPLY; done
 }
 
+function list_all_sessions {
+	local base_dir=/var/run/screen
+	# Permission denied issues here if not called as root.
+	find $base_dir -name 'S-*' | while read; do
+		local user=$(echo $(basename $REPLY) | cut -d'-' -f2)
+		find $base_dir/S-$user/ -type p | while read; do
+			echo $user/$(basename $REPLY)
+		done
+	done
+}
+
+function kill_session {
+	if [ "$1" == "" ]; then
+		echo "ERROR: Must specify a session id."
+		exit 1
+	fi
+	screen -X -S $1 quit
+}
+
 check_for_screen
 
 if [ "$1" != "" ]; then
@@ -44,6 +64,13 @@ if [ "$1" != "" ]; then
 		;;
 		L)
 			screen -list
+		;;
+		la)
+			list_all_sessions
+		;;
+		k)
+			shift
+			kill_session $@
 		;;
 		h)
 			usage
@@ -55,4 +82,3 @@ if [ "$1" != "" ]; then
 else
 	screen -dRR
 fi
-
