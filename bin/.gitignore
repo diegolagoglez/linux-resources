@@ -1,0 +1,4 @@
+
+# Ignore git-* tools (they are on 'git-tools' repo).
+git-*
+
