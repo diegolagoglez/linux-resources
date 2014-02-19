@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Program    : soname
+# Description: Utility to view the SONAME of a given library.
+# Author     : Diego Lago González <diego.lago.gonzalez@gmail.com>
+# Date       : 2014-02-19
+# Version    : 0.1
+# License    : GPLv2
+
+if [ "$(which objdump)" == "" ]; then
+	echo "ERROR: objdump utility not found."
+	exit 1
+fi
+
+if [ "$1" == "" ]; then
+	echo "$(basename $0) - Utility to view the SONAME of the given library. Diego Lago <diego.lago.gonzalez@gmail.com>"
+	echo "Usage: $(basename $0) <library>"
+	exit 0
+fi
+
+has_error=0
+
+for lib in $@; do
+	if [ -f "$lib" ]; then
+		objdump -p "$lib" | grep SONAME | awk '{print $2}'
+	elif [ -d "$lib" ]; then
+		true # Avoid errors on directories.
+	else
+		echo "ERROR: Invalid library: $lib"
+		has_error=3
+	fi
+done
+
+exit $has_error
