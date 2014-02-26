@@ -8,9 +8,7 @@ verbose=
 
 function error {
 	echo "ERROR: $1" 2>&1
-	if [ $2 != 0 ]; then
-		exit $2
-	fi
+	exit $2		# FIX: Check if arg 2 is defined and don't exit if not.
 }
 
 function log {
@@ -30,6 +28,19 @@ function usage {
 	echo "  -p <path>: Sets the path for GitLab installation (default to /home/git/gitlab)."
 	echo "  -u <user>: Sets GitLab user (default to 'git')."
 	echo "  -v       : Sets verbose mode."
+}
+
+function check_user {
+	id "$1" >/dev/null 2>&1
+	if [ $? != 0 ]; then
+		error "User does not exist: $1" 4
+	fi
+}
+
+function check_path {
+	if [ ! -d "$1" ]; then
+		error "GitLab path not found: $1" 5
+	fi
 }
 
 function check_action {
@@ -105,6 +116,9 @@ function main {
 			;;
 		esac
 	done
+
+	check_user $gitlab_user
+	check_path $gitlab_path
 
 	do_gitlab_action $action
 	
