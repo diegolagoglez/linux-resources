@@ -23,11 +23,13 @@ function usage {
 	echo "gitlab - Command to check GitLab installation - Diego Lago <diego.lago.gonzalez@gmail.com>"
 	echo "Usage: gitlab <command> [<options>]"
 	echo "Commands:"
-	echo "   status : Check the GitLab server status."
-	echo "     help : Shows this help."
+	echo "     check : Check the GitLab server status."
+	echo "      help : Shows this help."
 	echo "Options:"
 	echo "  -e <env> : Sets environment (production -default- or development)."
+	echo "  -p <path>: Sets the path for GitLab installation (default to /home/git/gitlab)."
 	echo "  -u <user>: Sets GitLab user (default to 'git')."
+	echo "  -v       : Sets verbose mode."
 }
 
 function check_action {
