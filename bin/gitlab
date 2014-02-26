@@ -1,0 +1,111 @@
+#!/bin/bash
+
+gitlab_user=git
+gitlab_environment=production
+gitlab_path=/home/$gitlab_user/gitlab
+
+verbose=
+
+function error {
+	echo "ERROR: $1" 2>&1
+	if [ $2 != 0 ]; then
+		exit $2
+	fi
+}
+
+function log {
+	if [ "$verbose" != "" ]; then
+		echo $@
+	fi
+}
+
+function usage {
+	echo "gitlab - Command to check GitLab installation - Diego Lago <diego.lago.gonzalez@gmail.com>"
+	echo "Usage: gitlab <command> [<options>]"
+	echo "Commands:"
+	echo "   status : Check the GitLab server status."
+	echo "     help : Shows this help."
+	echo "Options:"
+	echo "  -e <env> : Sets environment (production -default- or development)."
+	echo "  -u <user>: Sets GitLab user (default to 'git')."
+}
+
+function check_action {
+	if [ "$1" != "" ]; then
+		error "Cannot specify more than one action." 2
+	fi
+}
+
+function check_param {
+	if [ "$2" == "" ]; then
+		error "Option $1 must have an argument." 3
+	fi
+}
+
+function check_gitlab {
+	log "Checking GitLab..."
+	sudo -u $gitlab_user -H bundle exec rake gitlab:check RAILS_ENV=$gitlab_environment
+}
+
+function do_gitlab_action {
+	cd $gitlab_path >/dev/null
+	case "$1" in
+		check)
+			check_gitlab
+		;;
+		help)
+			usage
+		;;
+	esac
+	cd - >/dev/null
+}
+
+function main {
+	if [ $# == 0 ]; then
+		usage
+		exit 0
+	fi
+
+	action=""
+	while [ $# != 0 ]; do
+		case "$1" in
+			check)
+				check_action $action
+				action=$1
+				shift
+			;;
+			help)
+				check_action $action
+				action=$1
+				shift
+			;;
+			-e)
+				check_param "$1" "$2"
+				gitlab_environment="$2"
+				shift 2
+			;;
+			-p)
+				check_param "$1" "$2"
+				gitlab_path="$2"
+				shift 2
+			;;
+			-u)
+				check_param "$1" "$2"
+				gitlab_user="$2"
+				shift 2
+			;;
+			-v)
+				verbose=verbose
+				shift
+			;;
+			*)
+				error "Invalid option or command: $1" 1
+			;;
+		esac
+	done
+
+	do_gitlab_action $action
+	
+}
+
+main $@
