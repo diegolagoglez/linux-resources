@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Function to trim (remove leading and trailing spaces) a string.
+function trim() {
+	sed -e 's/^ *//' -e 's/ *$//'
+}
+
+# Function to trim left (remove leading spaces) a string.
+function trim-left() {
+	sed -e 's/^ *//'
+}
+
+# Function to trim right (remove trailing spaces) a string.
+function trim-right() {
+	sed -e 's/ *$//'
+}
