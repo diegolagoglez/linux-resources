@@ -105,6 +105,16 @@ function multiline_prompt() {
 	echo -n ""
 }
 
+function jobs_info() {
+	local rj=$(jobs -pr | wc -l)
+	local sj=$(jobs -ps | wc -l)
+	if [ $rj -ne 0 -o $sj -ne 0 ]; then
+		# FIXME: Not work with colors; escape characteres are shown instead
+		# of actual colors. Why? This works in git prompt but here not.
+		echo -n "[jobs:$rj|$sj] "
+	fi
+}
+
 # Prints terminal (TERM) if we are under screen or tmux utilities.
 function under_screen() {
 	if [ "$TERM" == "screen" ]; then
@@ -130,7 +140,7 @@ export GIT_PS1_SHOWCOLORHINTS=true
 #PS1="\[\[\033]0;\u@\h: \w\a${debian_chroot:+($debian_chroot)}\u@\h:\w:\$ "
 
 
-PS1="$(under_screen)${debian_chroot:+($debian_chroot)}$(user_color)\u$i_yellow@$i_green\H$white:$i_cyan\w$white:"
+PS1="\$(jobs_info)$(under_screen)${debian_chroot:+($debian_chroot)}$(user_color)\u$i_yellow@$i_green\H$white:$i_cyan\w$white:"
 
 construct_git_prompt
 
