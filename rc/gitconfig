@@ -21,3 +21,5 @@
 [merge]
 	commit = no
 	ff = no
+[log]
+	date = iso
