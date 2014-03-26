@@ -10,6 +10,7 @@
 	co = checkout
 	st = status
 	s = status --short
+	sb = status --short --branch
 	b = branch
 	ba = branch --all
 	br = branch --remote
