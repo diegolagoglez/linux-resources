@@ -111,7 +111,7 @@ function jobs_info() {
 	if [ $rj -ne 0 -o $sj -ne 0 ]; then
 		# FIXME: Not work with colors; escape characteres are shown instead
 		# of actual colors. Why? This works in git prompt but here not.
-		echo -en "[jobs:\033[0;92m$rj\033[0m|\033[0;91m$sj\033[0m] "
+		echo -en "[jobs:$rj|$sj] "
 	fi
 }
 
