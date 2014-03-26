@@ -23,3 +23,5 @@
 	ff = no
 [log]
 	date = iso
+[branch]
+	autosetuprebase = always
