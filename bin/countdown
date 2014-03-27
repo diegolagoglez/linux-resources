@@ -1,0 +1,87 @@
+#!/bin/bash
+
+function usage() {
+	echo "$(basename $0) v0.1 - Utility to do a console locking countdown."
+	echo "2014-03-27 Diego Lago González <diego.lago.gonzalez@gmail.com>"
+	echo "Usage: $(basename $0) [option]"
+	echo "Options:"
+	echo " -t <time>    : Countdown this time (integer for seconds, HH:MM[:SS] format for other time)."
+	echo " -u <time>    : Countdown until this time (HH:MM[:SS] format)."
+	#echo " -r <command> : Run this on countdown end."
+	echo " -h           : Show this help and exit."
+	exit 0
+}
+
+function countdown_to() {
+	local OLD_IFS="${IFS}"
+	IFS=":"
+	if [[ $1 =~ ^-?[0-9]+$ ]]; then
+		local SECONDS=$1
+	else
+		local ARR=( $1 )
+		local SECONDS=$((  (ARR[0] * 60 * 60) + (ARR[1] * 60) + ARR[2]  ))
+	fi
+	local START=$(date +%s)
+	local END=$((START + SECONDS))
+	local CUR=$START
+
+	while [[ $CUR -lt $END ]]; do
+		CUR=$(date +%s)
+		LEFT=$((END-CUR))
+
+		printf "\r%02d:%02d:%02d" $((LEFT/3600)) $(( (LEFT/60)%60)) $((LEFT%60))
+
+		sleep 1
+	done
+	IFS="${OLD_IFS}"
+	echo "        "
+}
+
+function countdown_until() {
+	local until_time=$(date +%s -d $1 2>/dev/null)
+
+	if [ $? -eq 0 ]; then
+		echo "ERROR: Invalid date: $1"
+		exit 4
+	fi
+
+	while [ $(date +%s) -lt $until_time ]; do
+		LEFT=$(($until_time - $(date +%s) ))
+		printf "\r%02d:%02d:%02d" $((LEFT/3600)) $(( (LEFT/60)%60)) $((LEFT%60))
+		sleep 1
+	done
+}
+
+function main() {
+	if [ $# -eq 0 ]; then
+		usage
+	fi
+	while getopts ":t:u:h:r" opt; do
+		case "$opt" in
+			t)
+				shift
+				countdown_to $1
+			;;
+			u)
+				shift
+				countdown_until $1
+			;;
+			h)
+				usage
+			;;
+			r)
+				false
+			;;
+			\?)
+				echo "ERROR: Invalid option: -$OPTARG" >&2
+				exit 1	
+			;;
+			:)
+				echo "ERROR: Option -$OPTARG requires an argument." >&2
+				exit 2
+			;;
+		esac
+	done
+}
+
+main $@
