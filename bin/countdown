@@ -81,18 +81,19 @@ function main() {
 			t)
 				[ "$action" != "" ] && echo "ERROR: Cannot specify -t and -u together." && exit 5
 				action="countdown_to"
-				param=$2
+				param=$OPTARG
 			;;
 			u)
 				[ "$action" != "" ] && echo "ERROR: Cannot specify -u and -t together." && exit 5
 				action="countdown_until"
-				param=$2
+				param=$OPTARG
 			;;
 			h)
 				usage
 			;;
 			r)
-				run="$2"
+				# FIXME: OPTARG does not catch quoted parameters.
+				run="$OPTARG"
 			;;
 			v)
 				verbose=1
