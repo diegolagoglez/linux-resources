@@ -1,5 +1,7 @@
 #!/bin/bash
 
+verbose=0
+
 function usage() {
 	echo "$(basename $0) v0.1 - Utility to do a console locking countdown."
 	echo "2014-03-27 Diego Lago González <diego.lago.gonzalez@gmail.com>"
@@ -7,9 +9,16 @@ function usage() {
 	echo "Options:"
 	echo " -t <time>    : Countdown this time (integer for seconds, HH:MM[:SS] format for other time)."
 	echo " -u <time>    : Countdown until this time (HH:MM[:SS] format)."
-	#echo " -r <command> : Run this on countdown end."
+	echo " -r <command> : Run this on countdown end."
+	echo " -v           : Verbose."
 	echo " -h           : Show this help and exit."
 	exit 0
+}
+
+function verbose() {
+	if [ $verbose -ne 0 ]; then
+		echo $@
+	fi
 }
 
 function countdown_to() {
@@ -24,6 +33,10 @@ function countdown_to() {
 	local START=$(date +%s)
 	local END=$((START + SECONDS))
 	local CUR=$START
+
+	[ -n ${ARR[1]} ] && ARR[1]="00"
+	[ -n ${ARR[2]} ] && ARR[2]="00"
+	verbose "Countdown for ${ARR[0]} hours, ${ARR[1]} minutes and ${ARR[2]} seconds ($SECONDS seconds)."
 
 	while [[ $CUR -lt $END ]]; do
 		CUR=$(date +%s)
@@ -40,10 +53,12 @@ function countdown_to() {
 function countdown_until() {
 	local until_time=$(date +%s -d $1 2>/dev/null)
 
-	if [ $? -eq 0 ]; then
+	if [ $? -ne 0 ]; then
 		echo "ERROR: Invalid date: $1"
 		exit 4
 	fi
+
+	verbose "Countdown until $(date +%H:%M:%S -d $1)"
 
 	while [ $(date +%s) -lt $until_time ]; do
 		LEFT=$(($until_time - $(date +%s) ))
@@ -56,21 +71,31 @@ function main() {
 	if [ $# -eq 0 ]; then
 		usage
 	fi
-	while getopts ":t:u:h:r" opt; do
+
+	local action=
+	local param=
+	local run=
+
+	while getopts ":t:u:r:vh" opt; do
 		case "$opt" in
 			t)
-				shift
-				countdown_to $1
+				[ "$action" != "" ] && echo "ERROR: Cannot specify -t and -u together." && exit 5
+				action="countdown_to"
+				param=$2
 			;;
 			u)
-				shift
-				countdown_until $1
+				[ "$action" != "" ] && echo "ERROR: Cannot specify -u and -t together." && exit 5
+				action="countdown_until"
+				param=$2
 			;;
 			h)
 				usage
 			;;
 			r)
-				false
+				run="$2"
+			;;
+			v)
+				verbose=1
 			;;
 			\?)
 				echo "ERROR: Invalid option: -$OPTARG" >&2
@@ -82,6 +107,12 @@ function main() {
 			;;
 		esac
 	done
+
+	$action $param
+
+	if [ "$run" != "" ]; then
+		$run
+	fi
 }
 
 main $@
