@@ -27,5 +27,3 @@
 	date = iso
 [branch]
 	autosetuprebase = always
-[push]
-	default = simple
