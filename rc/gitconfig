@@ -19,6 +19,7 @@
 	graph = log --graph --oneline
 	g = log --graph --oneline
 	lg = log --graph --pretty=\"%Cred%h %Cgreen%ai%Creset %s%C(yellow)%d %Cblue[%an]\"
+	rso = remote show origin
 [merge]
 	commit = no
 	ff = no
