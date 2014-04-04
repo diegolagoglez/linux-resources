@@ -27,3 +27,9 @@
 	date = iso
 [branch]
 	autosetuprebase = always
+
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.gmail.com
+	smtpuser = diego.lago.gonzalez@gmail.com
+	smtpserverport = 587
