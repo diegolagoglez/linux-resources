@@ -111,7 +111,11 @@ function jobs_info() {
 	if [ $rj -ne 0 -o $sj -ne 0 ]; then
 		# FIXME: Not work with colors; escape characteres are shown instead
 		# of actual colors. Why? This works in git prompt but here not.
-		echo -en "[jobs:$rj|$sj] "
+		if [ "$1" != "" ]; then
+			printf "$1" $rj $sj
+		else
+			echo -en "[jobs:$rj|$sj] "
+		fi
 	fi
 }
 
@@ -137,9 +141,7 @@ function construct_git_prompt() {
 # Enable __git_ps1 to use a colored prompt (as of version 1.8.1).
 export GIT_PS1_SHOWCOLORHINTS=true
 
-#PS1="\[\[\033]0;\u@\h: \w\a${debian_chroot:+($debian_chroot)}\u@\h:\w:\$ "
-
-PS1="\$(jobs_info)$(under_screen)${debian_chroot:+($debian_chroot)}$(user_color)\u$i_yellow@$i_green\H$white:$i_cyan\w$white:"
+PS1="\$(jobs_info '[jobs:$green%s$reset|$red%s$reset] ')$(under_screen)${debian_chroot:+($debian_chroot)}$(user_color)\u$i_yellow@$i_green\H$white:$i_cyan\w$white:"
 
 construct_git_prompt
 
