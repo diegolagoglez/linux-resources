@@ -4,4 +4,4 @@
 shell "/bin/bash"
 
 # Message line
-hardstatus alwayslastline "%n: %t [%w] %=%H | %l | %Y-%m-%d %0c:%s"
+hardstatus alwayslastline " %-w%{= kw} %n %t %{-}%+w %=%H | %l | %Y-%m-%d %0c:%s"
