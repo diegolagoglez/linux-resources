@@ -141,11 +141,14 @@ function construct_git_prompt() {
 # Enable __git_ps1 to use a colored prompt (as of version 1.8.1).
 export GIT_PS1_SHOWCOLORHINTS=true
 
-PS1="\$(jobs_info '[jobs:$green%s$reset|$red%s$reset] ')$(under_screen)${debian_chroot:+($debian_chroot)}$(user_color)\u$i_yellow@$i_green\H$white:$i_cyan\w$white:"
+PS1="\$(export prompt_result=\$?; if [ \$? -eq 0 ]; then echo '$i_green•'; else echo '$i_red×'; fi)$reset "
+PS1="$PS1\$(jobs_info '[jobs:$green%s$reset|$red%s$reset] ')"
+PS1="$PS1$(under_screen)"
+PS1="$PS1${debian_chroot:+($debian_chroot)}"
+PS1="$PS1$(user_color)\u$i_yellow@$i_green\H$white:$i_cyan\w$white:"
 
 construct_git_prompt
 
 PS1="$PS1\\$ $reset"
 
 export PS1
-
