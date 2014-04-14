@@ -134,21 +134,30 @@ function under_screen() {
 
 function construct_git_prompt() {
 	if [ $(type -t __git_ps1) ]; then
-		PS1="$PS1\$(__git_ps1 ' [git: $i_purple%s$white] ')"
-	fi	
+		PS1+="\$(__git_ps1 ' [git: $i_purple%s$white] ')"
+	fi
+}
+
+function prompt_command() {
+	# Allows check the return value of last command at last position in
+	# prompt (after execution of some prompt functions).
+	PROMPT_LAST_COMMAND_RESULT=$?
 }
 
 # Enable __git_ps1 to use a colored prompt (as of version 1.8.1).
 export GIT_PS1_SHOWCOLORHINTS=true
 
-PS1="\$(export prompt_result=\$?; if [ \$? -eq 0 ]; then echo '$i_green•'; else echo '$i_red×'; fi)$reset "
-PS1="$PS1\$(jobs_info '[jobs:$green%s$reset|$red%s$reset] ')"
-PS1="$PS1$(under_screen)"
-PS1="$PS1${debian_chroot:+($debian_chroot)}"
-PS1="$PS1$(user_color)\u$i_yellow@$i_green\H$white:$i_cyan\w$white:"
+PROMPT_COMMAND='prompt_command'
+
+PS1=""	# Resets prompt.
+PS1+="\$(jobs_info '[jobs:$green%s$reset|$red%s$reset] ')"
+PS1+="$(under_screen)"
+PS1+="${debian_chroot:+($debian_chroot)}"
+PS1+="$(user_color)\u$i_yellow@$i_green\H$white:$i_cyan\w$white:"
 
 construct_git_prompt
 
-PS1="$PS1\\$ $reset"
+# Prompt result characters: OK: • -- FAIL: × -- Not currently used.
+PS1+="\$(if [ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ]; then echo '$white'; else echo '$i_red'; fi)\\$ $reset"
 
 export PS1
