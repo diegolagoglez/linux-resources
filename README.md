@@ -54,6 +54,34 @@ user@host:~:$ ln -s projects/linux-resources/rc/inputrc .inputrc
 ```
 Also, there are more files to configure other appliactions like Sublime Text. This other files should be linked in their corresponding places.
 
+## Configuration files overview ##
+
+### BASH ###
+
+Files in `bashrc.d` directory:
+
+- `alias`: Custom aliases (ll, la, df...).
+- `bash-config`: BASH shell configuration (history, history size...).
+- `prompt`: Custom prompt (including jobs, user, host, screen/tmux, git, return status...);
+- `utils`: Utility functions (currently trim, trim-left and trim-right).
+
+### Tools ###
+
+Files in `bin` directory are tools for common use. See the directory.
+
+### RC files ###
+
+Files in `rc` customize several commands:
+
+- `gitconfig`: Configures Git.
+- `inputrc`: Configures BASH completion.
+- `screenrc`: Configures GNU/Screen.
+- `vimrc`: Configures Vim editor.
+
+### Sublime Text ###
+
+Files in `sublime-text` directory are files to configure Sublime Text editor.
+
 ## Contribution ##
 
 You can use and/or contribute to this configuration but keep in mind the KISS principle.
