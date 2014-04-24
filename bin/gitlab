@@ -112,12 +112,12 @@ function do_gitlab_action {
 
 function main {
 
-	check_tool sudo ruby bundle service
-
 	if [ $# == 0 ]; then
 		usage
 		exit 0
 	fi
+
+	check_tool sudo ruby bundle service
 
 	action=""
 	while [ $# != 0 ]; do
