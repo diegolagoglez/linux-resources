@@ -13,14 +13,17 @@ alias l.='ls -dh .*'
 alias ll.='ls -ldh .*'
 alias df='df -Th'
 
-# Alias for dates.
+# Aliases for dates.
 alias dateiso='date +%Y-%m-%dT%H:%M:%S.%N | cut -b 1-23'
-alias isodate='date +%FT%X%:z'
+alias isodate='date +%FT%H:%M:%S%:z'
 
 # 'less' alias with more information.
 alias L='less -NR -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
 alias Ln='less -R -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
 alias lerr='less -R'
+
+# Alias for 'time' (not builtin)
+#alias xtime="/usr/bin/time -f 'Time: %E\nSyst: %S\nUser: %U'"
 
 # apt-get aliases
 alias as='apt-cache search'
