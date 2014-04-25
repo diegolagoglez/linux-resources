@@ -26,6 +26,9 @@ function usage {
 	echo "      info : Show GitLab information."
 	echo "     start : Start GitLab service."
 	echo "      stop : Stop GitLab service."
+	echo "     fetch : Fetch last GitLab version from repository."
+	echo "    update <version>: Update GitLab to <version>."
+	echo "   upgrade : Automatic upgrade GitLab."
 	echo "      help : Shows this help."
 	echo "Options:"
 	echo "  -e <env> : Sets environment (production -default- or development)."
@@ -83,6 +86,22 @@ function gitlab_info {
 	sudo -u $gitlab_user -H bundle exec rake gitlab:env:info RAILS_ENV=$gitlab_environment
 }
 
+function gitlab_fetch {
+	log "Getting last GitLab version..."
+	cd $gitlab_path >/dev/null
+	sudo -u $gitlab_user -H git fetch --all
+}
+
+function gitlab_update {
+	error "GitLab update is not yet implemented." -1
+}
+
+function gitlab_upgrade {
+	log "Automatically upgrading GitLab..."
+	cd $gitlab_path >/dev/null
+	sudo -u $gitlab_user -H ruby script/upgrade.rb $@
+}
+
 function do_gitlab_action {
 	cd $gitlab_path >/dev/null
 	case "$1" in
@@ -103,6 +122,17 @@ function do_gitlab_action {
 			log "Stopping GitLab..."
 			sudo service gitlab stop
 		;;
+		fetch)
+			gitlab_fetch
+		;;
+		update)
+			shift
+			gitlab_update $@
+		;;
+		upgrade)
+			shift
+			gitlab_upgrade $@
+		;;
 		help)
 			usage
 		;;
@@ -122,7 +152,7 @@ function main {
 	action=""
 	while [ $# != 0 ]; do
 		case "$1" in
-			backup|check|help|info|start|stop)
+			backup|check|help|info|start|stop|update|upgrade)
 				check_action $action
 				action=$1
 				shift
