@@ -26,9 +26,11 @@ function usage {
 	echo "      info : Show GitLab information."
 	echo "     start : Start GitLab service."
 	echo "      stop : Stop GitLab service."
+	echo " dbmigrate : Migrate database (upon upgrade)."
 	echo "     fetch : Fetch last GitLab version from repository."
 	echo "    update <version>: Update GitLab to <version>."
 	echo "   upgrade : Automatic upgrade GitLab."
+	echo "   cleanup : Cleans up GitLab upon update."
 	echo "      help : Shows this help."
 	echo "Options:"
 	echo "  -e <env> : Sets environment (production -default- or development)."
@@ -86,6 +88,16 @@ function gitlab_info {
 	sudo -u $gitlab_user -H bundle exec rake gitlab:env:info RAILS_ENV=$gitlab_environment
 }
 
+function gitlab_dbmigrate {
+	log "Migrating database..."
+	sudo -u $gitlab_user -H bundle exec rake db:migrate RAILS_ENV=$gitlab_environment
+}
+
+function gitlab_cleanup {
+	log "Cleaning up..."
+	sudo -u $gitlab_user -H bundle exec rake assets:clean assets:precompile cache:clear RAILS_ENV=$gitlab_environment
+}
+
 function gitlab_fetch {
 	log "Getting last GitLab version..."
 	cd $gitlab_path >/dev/null
@@ -122,6 +134,9 @@ function do_gitlab_action {
 			log "Stopping GitLab..."
 			sudo service gitlab stop
 		;;
+		dbmigrate)
+			gitlab_dbmigrate
+		;;
 		fetch)
 			gitlab_fetch
 		;;
@@ -132,6 +147,9 @@ function do_gitlab_action {
 		upgrade)
 			shift
 			gitlab_upgrade $@
+		;;
+		cleanup)
+			gitlab_cleanup
 		;;
 		help)
 			usage
@@ -152,7 +170,7 @@ function main {
 	action=""
 	while [ $# != 0 ]; do
 		case "$1" in
-			backup|check|help|info|start|stop|update|upgrade)
+			backup|check|help|info|start|stop|update|upgrade|dbmigrate|cleanup)
 				check_action $action
 				action=$1
 				shift
