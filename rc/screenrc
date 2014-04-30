@@ -3,5 +3,12 @@
 # Use BASH as default shell.
 shell "/bin/bash"
 
-# Message line
-hardstatus alwayslastline " %-w%{= kw} %n %t %{-}%+w %=%H | %l | %Y-%m-%d %0c:%s"
+# Use %0` as output of 'whoami' command.
+backtick 0 0 0 whoami
+
+# No startup message.
+startup_message off
+
+# Message line.
+hardstatus alwayslastline " %-w%{= kw} %n %t %{-}%+w %=%0`@%H | %l | %Y-%m-%d %0c:%s "
+
