@@ -14,7 +14,7 @@ alias ll.='ls -ldh .*'
 alias df='df -Th'
 
 # Aliases for dates.
-alias dateiso='date +%Y-%m-%dT%H:%M:%S.%N | cut -b 1-23'
+#alias dateiso='date +%Y-%m-%dT%H:%M:%S.%N | cut -b 1-23'
 alias isodate='date +%FT%H:%M:%S%:z'
 
 # 'less' alias with more information.

@@ -1,0 +1,50 @@
+#!/bin/bash
+
+DATE_STRING_ISO="+%Y-%m-%dT%H:%M:%S%:z"
+DATE_STRING_FILE_SHORT="+%Y%m%d%H%M%S"
+DATE_STRING_FILE_LONG="+%Y%m%dT%H%M%S%z"
+
+DATE_STRING=$DATE_STRING_ISO
+
+function showHelp() {
+	echo "dateiso v0.1 - Utility to show date and time in ISO8601 format."
+	echo "GPLv2 - Diego Lago González <diego.lago.gonzalez@gmail.com>"
+	echo "Usage: $(basename $0) [option]"
+	echo "Options: "
+	echo " -f        : Show date as a safe file name (short mode)."
+	echo " -F        : Show date as a safe file name (long mode)."
+	echo " -d <date> : Show the date specify in the parameter."
+	echo " -h        : Show this help and exit."
+}
+
+function main() {
+	while getopts ":fFhd:" opt; do
+		case "$opt" in
+			f)
+				DATE_STRING=$DATE_STRING_FILE_SHORT
+			;;
+			F)
+				DATE_STRING=$DATE_STRING_FILE_LONG
+			;;
+			h)
+				showHelp
+				exit 1
+			;;
+			d)
+				DATE_STRING="$OPTARG"
+			;;
+			:)
+				echo "ERROR: Option '-$OPTARG' needs a parameter." 1>&2
+				exit 3
+			;;
+			?)
+				echo "ERROR: Invalid option: -$OPTARG" 1>&2
+				exit 2
+			;;
+		esac
+	done
+
+	date $DATE_STRING
+}
+
+main $@
