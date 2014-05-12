@@ -18,7 +18,7 @@ function log {
 }
 
 function usage {
-	echo "gitlab - Command to check GitLab installation - Diego Lago <diego.lago.gonzalez@gmail.com>"
+	echo "gitlab - Utility to control GitLab installation - Diego Lago <diego.lago.gonzalez@gmail.com>"
 	echo "Usage: gitlab <command> [<options>]"
 	echo "Commands:"
 	echo "    backup : Do a GitLab backup."
@@ -31,12 +31,25 @@ function usage {
 	echo "    update <version>: Update GitLab to <version>."
 	echo "   upgrade : Automatic upgrade GitLab."
 	echo "   cleanup : Cleans up GitLab upon update."
+	echo "      vars : Shows GitLab variables (user, path and environment)."
 	echo "      help : Shows this help."
 	echo "Options:"
-	echo "  -e <env> : Sets environment (production -default- or development)."
-	echo "  -p <path>: Sets the path for GitLab installation (default to /home/git/gitlab)."
-	echo "  -u <user>: Sets GitLab user (default to 'git')."
+	echo "  -e <env> : Sets environment (production -default- or development; overrides GITLAB_ENVIRONMENT)."
+	echo "  -p <path>: Sets the path for GitLab installation (default to /home/git/gitlab; overrides GITLAB_PATH)."
+	echo "  -u <user>: Sets GitLab user (default to 'git'; overrides GITLAB_USER)."
 	echo "  -v       : Sets verbose mode."
+}
+
+function populate_system_variables {
+	if [ -n "$GITLAB_USER" ]; then
+		gitlab_user="$GITLAB_USER"
+	fi
+	if [ -n "$GITLAB_ENVIRONMENT" ]; then
+		gitlab_environment="$GITLAB_ENVIRONMENT"
+	fi
+	if [ -n "$GITLAB_PATH" ]; then
+		gitlab_path="$GITLAB_PATH"
+	fi
 }
 
 function check_tool {
@@ -114,6 +127,12 @@ function gitlab_upgrade {
 	sudo -u $gitlab_user -H ruby script/upgrade.rb $@
 }
 
+function show_gitlab_vars {
+	echo "GitLab User        : $gitlab_user"
+	echo "GitLab Path        : $gitlab_path"
+	echo "GitLab Environment : $gitlab_environment"
+}
+
 function do_gitlab_action {
 	cd $gitlab_path >/dev/null
 	case "$1" in
@@ -151,6 +170,9 @@ function do_gitlab_action {
 		cleanup)
 			gitlab_cleanup
 		;;
+		vars)
+			show_gitlab_vars
+		;;
 		help)
 			usage
 		;;
@@ -167,10 +189,12 @@ function main {
 
 	check_tool sudo ruby bundle service
 
+	populate_system_variables
+
 	action=""
 	while [ $# != 0 ]; do
 		case "$1" in
-			backup|check|help|info|start|stop|update|upgrade|dbmigrate|cleanup)
+			backup|check|help|info|start|stop|update|upgrade|dbmigrate|cleanup|vars)
 				check_action $action
 				action=$1
 				shift
