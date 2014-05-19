@@ -6,6 +6,8 @@ gitlab_path=/home/$gitlab_user/gitlab
 
 verbose=
 
+sudo_command="sudo -E"
+
 function error {
 	echo "ERROR: $1" 2>&1
 	exit $2		# FIX: Check if arg 2 is defined and don't exit if not.
@@ -22,6 +24,7 @@ function usage {
 	echo "Usage: gitlab <command> [<options>]"
 	echo "Commands:"
 	echo "    backup : Do a GitLab backup."
+	echo "   bundles : Installs bundles (runs 'bundle install')."
 	echo "     check : Check the GitLab server status."
 	echo "      info : Show GitLab information."
 	echo "     start : Start GitLab service."
@@ -88,33 +91,38 @@ function check_param {
 
 function backup_gitlab {
 	log "Backing up GitLab database..."
-	sudo -u $gitlab_user -H bundle exec rake gitlab:backup:create RAILS_ENV=$gitlab_environment
+	$sudo_command -u $gitlab_user -H bundle exec rake gitlab:backup:create RAILS_ENV=$gitlab_environment
+}
+
+function bundle_install {
+	log "Installing bundles..."
+	$sudo_command -u $gitlab_user -H bundle install
 }
 
 function check_gitlab {
 	log "Checking GitLab..."
-	sudo -u $gitlab_user -H bundle exec rake gitlab:check RAILS_ENV=$gitlab_environment
+	$sudo_command -u $gitlab_user -H bundle exec rake gitlab:check RAILS_ENV=$gitlab_environment
 }
 
 function gitlab_info {
 	log "Gathering GitLab information..."
-	sudo -u $gitlab_user -H bundle exec rake gitlab:env:info RAILS_ENV=$gitlab_environment
+	$sudo_command -u $gitlab_user -H bundle exec rake gitlab:env:info RAILS_ENV=$gitlab_environment
 }
 
 function gitlab_dbmigrate {
 	log "Migrating database..."
-	sudo -u $gitlab_user -H bundle exec rake db:migrate RAILS_ENV=$gitlab_environment
+	$sudo_command -u $gitlab_user -H bundle exec rake db:migrate RAILS_ENV=$gitlab_environment
 }
 
 function gitlab_cleanup {
 	log "Cleaning up..."
-	sudo -u $gitlab_user -H bundle exec rake assets:clean assets:precompile cache:clear RAILS_ENV=$gitlab_environment
+	$sudo_command -u $gitlab_user -H bundle exec rake assets:clean assets:precompile cache:clear RAILS_ENV=$gitlab_environment
 }
 
 function gitlab_fetch {
 	log "Getting last GitLab version..."
 	cd $gitlab_path >/dev/null
-	sudo -u $gitlab_user -H git fetch --all
+	$sudo_command -u $gitlab_user -H git fetch --all
 }
 
 function gitlab_update {
@@ -124,7 +132,7 @@ function gitlab_update {
 function gitlab_upgrade {
 	log "Automatically upgrading GitLab..."
 	cd $gitlab_path >/dev/null
-	sudo -u $gitlab_user -H ruby script/upgrade.rb $@
+	$sudo_command -u $gitlab_user -H ruby script/upgrade.rb $@
 }
 
 function show_gitlab_vars {
@@ -139,6 +147,9 @@ function do_gitlab_action {
 		backup)
 			backup_gitlab
 		;;
+		bundles)
+			bundle_install
+		;;
 		check)
 			check_gitlab
 		;;
@@ -147,11 +158,11 @@ function do_gitlab_action {
 		;;
 		start)
 			log "Starting GitLab..."
-			sudo service gitlab start
+			$sudo_command service gitlab start
 		;;
 		stop)
 			log "Stopping GitLab..."
-			sudo service gitlab stop
+			$sudo_command service gitlab stop
 		;;
 		dbmigrate)
 			gitlab_dbmigrate
@@ -194,7 +205,7 @@ function main {
 	action=""
 	while [ $# != 0 ]; do
 		case "$1" in
-			backup|check|help|info|start|stop|update|upgrade|dbmigrate|cleanup|vars)
+			backup|bundles|check|help|info|start|stop|update|upgrade|dbmigrate|cleanup|vars)
 				check_action $action
 				action=$1
 				shift
