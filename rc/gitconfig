@@ -33,3 +33,5 @@
 	smtpserver = smtp.gmail.com
 	smtpuser = diego.lago.gonzalez@gmail.com
 	smtpserverport = 587
+[push]
+	default = simple
