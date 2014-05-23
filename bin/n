@@ -3,9 +3,9 @@
 interface=eth1
 network=192.168.1.0/24
 
-mac=00:14:00:28:bb:ff
+stop_services_dir="$HOME/.config/nss"
 
-services=(ssh smbd)
+mac=00:14:00:28:bb:ff
 
 function check_command() {
 	if [ "$(which $1)" == "" ]; then
@@ -21,7 +21,8 @@ function usage() {
 	echo "  on                       : Starts Network Manager."
 	echo "  off                      : Stops Network Manager."
 	echo '  map [<address/mask>]     : Scans the network (with nmap to local addresses 192.168.1.0/24).'
-	echo "  ss                       : Stop services (currently sshd and smbd)."
+	echo "  ss                       : Stop services (list from ~/.config/nss/*)."
+	echo "  ssl                      : List services to stop."
 	echo '  mac [<mac>|reset|random] : Change MAC address to <mac>, resets it or puts a random mac.'
 	echo '  lswifi|l                 : List detected wifi networks.'
 }
@@ -57,10 +58,24 @@ function net_map() {
 }
 
 function stop_services() {
-	for service in ${services[@]}; do
-		echo "Stopping service '$service'..."
-		sudo service $service stop
-	done
+	if [ -d "$stop_services_dir" ]; then
+		for service in $stop_services_dir/*; do
+			service="$(basename $service)"
+			echo "Stopping service '$service'..."
+			sudo service $service stop
+		done
+	fi
+}
+
+function list_services_to_stop() {
+	if [ -d "$stop_services_dir" ]; then
+		for f in $stop_services_dir/*; do
+			f="$(basename $f)"
+			echo $f
+		done
+	else
+		echo "NOTICE: There are no services to stop in $stop_services_dir."
+	fi
 }
 
 function get_current_mac_address() {
@@ -106,6 +121,9 @@ case "$1" in
 	;;
 	ss)
 		stop_services
+	;;
+	ssl)
+		list_services_to_stop
 	;;
 	mac)
 		shift
