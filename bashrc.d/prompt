@@ -144,11 +144,29 @@ function prompt_command() {
 	PROMPT_LAST_COMMAND_RESULT=$?
 }
 
-# Enable __git_ps1 to use a colored prompt (as of version 1.8.1).
-export GIT_PS1_SHOWCOLORHINTS=true
+function git_ps1_properties() {
+	# Enable __git_ps1 to use a colored prompt (as of version 1.8.1; only valid
+	# when __git_ps1 is used for PROMPT_COMMAND).
+	export GIT_PS1_SHOWCOLORHINTS=true
 
-# Enable show dirty state of the current branch (* for unstaged; + for staged).
-export GIT_PS1_SHOWDIRTYSTATE=true
+	# Enable show dirty state of the current branch (* for unstaged; + for staged).
+	export GIT_PS1_SHOWDIRTYSTATE=true
+
+	# Enable show if something is stashed with a '$' sign next to the branch name.
+	export GIT_PS1_SHOWSTASHSTATE=true
+
+	# Enable show if there are some untracked files (with a '%' sign next to the
+	# branch name).
+	export GIT_PS1_SHOWUNTRACKEDFILES=true
+
+	# View on PS1 if your current branch is paired with upstream
+	# (< for behind, > for ahead, = for no changes, <> for divergence).
+	# See help for more info about formatting.
+	export GIT_PS1_SHOWUPSTREAM="auto"
+}
+
+# Set some git PS1 properties.
+git_ps1_properties
 
 PROMPT_COMMAND='prompt_command'
 
