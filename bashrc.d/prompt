@@ -147,6 +147,9 @@ function prompt_command() {
 # Enable __git_ps1 to use a colored prompt (as of version 1.8.1).
 export GIT_PS1_SHOWCOLORHINTS=true
 
+# Enable show dirty state of the current branch (* for unstaged; + for staged).
+export GIT_PS1_SHOWDIRTYSTATE=true
+
 PROMPT_COMMAND='prompt_command'
 
 PS1=""	# Resets prompt.
