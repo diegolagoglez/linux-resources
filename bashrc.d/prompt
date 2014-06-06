@@ -157,12 +157,12 @@ function git_ps1_properties() {
 
 	# Enable show if there are some untracked files (with a '%' sign next to the
 	# branch name).
-	export GIT_PS1_SHOWUNTRACKEDFILES=true
+#	export GIT_PS1_SHOWUNTRACKEDFILES=true
 
 	# View on PS1 if your current branch is paired with upstream
 	# (< for behind, > for ahead, = for no changes, <> for divergence).
 	# See help for more info about formatting.
-	export GIT_PS1_SHOWUPSTREAM="auto"
+#	export GIT_PS1_SHOWUPSTREAM="auto"
 }
 
 # Set some git PS1 properties.
