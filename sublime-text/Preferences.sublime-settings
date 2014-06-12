@@ -1,6 +1,7 @@
 {
 	"always_show_minimap_viewport": true,
 	"auto_complete_commit_on_tab": false,
+	"bold_folder_labels": true,
 	"color_scheme": "Packages/User/Diego.tmTheme",
 	"fade_fold_buttons": false,
 	"font_face": "Ubuntu Mono",
@@ -13,20 +14,22 @@
 	"highlight_modified_tabs": true,
 	"ignored_packages":
 	[
-		"GitGutter",
-		"Vintage"
+		"Vintage",
+		"GitGutter"
+	],
+	"indent_guide_options":
+	[
+		"draw_normal",
+		"draw_active"
 	],
 	"indent_subsequent_lines": false,
 	"rulers":
 	[
-		80
+		80,
+		120
 	],
 	"show_encoding": true,
 	"show_line_endings": true,
 	"tab_completion": false,
-	"word_wrap": true,
-	"rulers": [80, 120],
-	"indent_subsequent_lines": false,
-	"indent_guide_options": ["draw_normal", "draw_active"],
-	"bold_folder_labels": true
+	"word_wrap": true
 }
