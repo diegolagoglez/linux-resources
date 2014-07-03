@@ -59,11 +59,14 @@ function net_map() {
 
 function stop_services() {
 	if [ -d "$stop_services_dir" ]; then
-		for service in $stop_services_dir/*; do
+		find $stop_services_dir -type f | while read service; do
 			service="$(basename $service)"
 			echo "Stopping service '$service'..."
 			sudo service $service stop
 		done
+	else
+		echo "WARNING: No services to stop (directory '$stop_services_dir' not found)."
+		exit 1
 	fi
 }
 
