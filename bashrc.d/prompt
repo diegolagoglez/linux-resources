@@ -170,8 +170,13 @@ git_ps1_properties
 
 PROMPT_COMMAND='prompt_command'
 
-PROMPT_CHAR_OK="•"
-PROMPT_CHAR_FAIL="×"
+if [[ -z "$PROMPT_CHAR_OK" ]]; then
+	PROMPT_CHAR_OK="•"
+fi
+
+if [[ -z "$PROMPT_CHAR_FAIL" ]]; then
+	PROMPT_CHAR_FAIL="×"
+fi
 
 PS1=""	# Resets prompt.
 PS1+="$(under_screen)"
