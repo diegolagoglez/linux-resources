@@ -170,6 +170,9 @@ git_ps1_properties
 
 PROMPT_COMMAND='prompt_command'
 
+PROMPT_CHAR_OK="•"
+PROMPT_CHAR_FAIL="×"
+
 PS1=""	# Resets prompt.
 PS1+="$(under_screen)"
 PS1+="\$(jobs_info '[jobs:$green%s$reset|$red%s$reset] ')"
@@ -181,6 +184,6 @@ construct_git_prompt
 
 # Prompt result characters: OK: • -- FAIL: × -- Not currently used.
 # PS1+="\$(if [ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ]; then echo '$white'; else echo '$i_red'; fi)\\$ $reset"
-PS1+="\$(if [ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ]; then echo '$i_green•'; else echo '$i_red×'; fi)$reset \\$ $reset"
+PS1+="\$(if [ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ]; then echo '$i_green$PROMPT_CHAR_OK'; else echo '$i_red$PROMPT_CHAR_FAIL'; fi)$reset \\$ $reset"
 
 export PS1
