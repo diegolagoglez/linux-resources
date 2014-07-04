@@ -145,6 +145,8 @@ function prompt_command() {
 }
 
 function export_prompt_ok_fail_chars {
+	# FIXME: This do not respect previously exported vars
+	# (for example by .bashrc).
 	if [[ -z "$PROMPT_CHAR_OK" ]]; then
 		PROMPT_CHAR_OK="•"
 	fi
@@ -192,8 +194,6 @@ PS1+="$i_cyan\w$white "
 
 construct_git_prompt
 
-# Prompt result characters: OK: • -- FAIL: × -- Not currently used.
-# PS1+="\$(if [ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ]; then echo '$white'; else echo '$i_red'; fi)\\$ $reset"
 PS1+="\$(if [ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ]; then echo '$i_green$PROMPT_CHAR_OK'; else echo '$i_red$PROMPT_CHAR_FAIL'; fi)$reset \\$ $reset"
 
 export PS1
