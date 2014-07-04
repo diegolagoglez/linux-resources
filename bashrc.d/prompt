@@ -144,6 +144,16 @@ function prompt_command() {
 	PROMPT_LAST_COMMAND_RESULT=$?
 }
 
+function export_prompt_ok_fail_chars {
+	if [[ -z "$PROMPT_CHAR_OK" ]]; then
+		PROMPT_CHAR_OK="•"
+	fi
+
+	if [[ -z "$PROMPT_CHAR_FAIL" ]]; then
+		PROMPT_CHAR_FAIL="×"
+	fi
+}
+
 function git_ps1_properties() {
 	# Enable __git_ps1 to use a colored prompt (as of version 1.8.1; only valid
 	# when __git_ps1 is used for PROMPT_COMMAND).
@@ -165,18 +175,13 @@ function git_ps1_properties() {
 #	export GIT_PS1_SHOWUPSTREAM="auto"
 }
 
+# Export Ok and fail prompt characters (if not already set).
+export_prompt_ok_fail_chars
+
 # Set some git PS1 properties.
 git_ps1_properties
 
 PROMPT_COMMAND='prompt_command'
-
-if [[ -z "$PROMPT_CHAR_OK" ]]; then
-	PROMPT_CHAR_OK="•"
-fi
-
-if [[ -z "$PROMPT_CHAR_FAIL" ]]; then
-	PROMPT_CHAR_FAIL="×"
-fi
 
 PS1=""	# Resets prompt.
 PS1+="$(under_screen)"
