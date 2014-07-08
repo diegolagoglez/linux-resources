@@ -91,11 +91,16 @@ function user_color() {
 	if [ $(id -u) == 0 ]; then
 		echo $i_white$bg_red
 	else
-		if [ -n "$I_AM_AT_CONSOLE" ]; then
-			echo $i_blue
-		else
-			echo $i_purple
-		fi
+		echo $i_blue
+	fi
+}
+
+# This function changes host color depeding on which server you are.
+function host_color() {
+	if [ -n "$I_AM_AT_CONSOLE" ]; then
+		echo $i_green
+	else
+		echo $bi_red
 	fi
 }
 
@@ -189,7 +194,7 @@ PS1=""	# Resets prompt.
 PS1+="$(under_screen)"
 PS1+="\$(jobs_info '[jobs:$green%s$reset|$red%s$reset] ')"
 PS1+="${debian_chroot:+($debian_chroot)}"
-PS1+="$(user_color)\u$i_yellow@$i_green\H$white "
+PS1+="$(user_color)\u$i_yellow@$(host_color)\H$white "
 PS1+="$i_cyan\w$white "
 
 construct_git_prompt
