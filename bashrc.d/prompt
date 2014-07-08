@@ -197,6 +197,6 @@ PS1+="$i_cyan\w$white "
 
 construct_git_prompt
 
-PS1+="\$(if [ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ]; then echo '$i_green$PROMPT_CHAR_OK'; else echo '$i_red$PROMPT_CHAR_FAIL'; fi)$reset \\$ $reset"
+PS1+="\$([ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ] && echo '$i_green$PROMPT_CHAR_OK' || echo '$i_red$PROMPT_CHAR_FAIL')$reset \\$ $reset"
 
 export PS1
