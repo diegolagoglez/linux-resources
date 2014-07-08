@@ -150,8 +150,6 @@ function prompt_command() {
 }
 
 function export_prompt_ok_fail_chars {
-	# FIXME: This do not respect previously exported vars
-	# (for example by .bashrc).
 	if [[ -z "$PROMPT_CHAR_OK" ]]; then
 		PROMPT_CHAR_OK="•"
 	fi
