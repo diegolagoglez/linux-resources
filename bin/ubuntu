@@ -3,9 +3,15 @@
 VERSION="0.1"
 
 function error() {
-	echo "ERROR: $1" &1>2
+	echo "ERROR: $1" 1>&2
 	if [ -n "$2" -a $2 != 0 ]; then
 		exit $2
+	fi
+}
+
+function check_root() {
+	if [ $(id -u) != 0 ]; then
+		error "You must be root to run this command." -1
 	fi
 }
 
@@ -21,8 +27,31 @@ function usage() {
 	echo "      help : Show this help and exits."
 }
 
+function check_filesystem_type() {
+	local fs_type="$1"
+	if [ "$fs_type" != "btrfs" ]; then
+		error "Invalid filesystem (must be btrfs): $fs_type"
+	fi
+}
+
 function make_snapshot() {
-	:
+	check_root
+	root_dev=$(/bin/df | grep \/$ | cut -d' ' -f1)
+	dev_fs=$(/bin/df -T | grep \/$ | awk '{print $2}')
+	check_filesystem_type $dev_fs
+	tmp_dir=$(mktemp -d /tmp/btrfs-snapshot-XXXXXXXX)
+	mount -t $dev_fs $root_dev $tmp_dir
+	# Device is mounted. Do the actual snapshot.
+	local date=$(date +%Y%m%d%H%M%S)
+	for dir in $tmp_dir/*; do
+		to_snapshot=$(echo $(basename $dir) | grep "^@" | grep -v snapshot)
+		if [ -n "$to_snapshot" ]; then
+			echo "Do snapshot from $to_snapshot to $to_snapshot-$date"
+			echo "btrfs subvolume snapshot $tmp_dir/$to_snapshot $tmp_dir/$to_snapshot-$date"
+		fi
+	done
+	umount $tmp_dir
+	rmdir $tmp_dir
 }
 
 function main() {
