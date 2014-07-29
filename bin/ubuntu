@@ -21,6 +21,11 @@ function check_ubuntu {
 	fi
 }
 
+function check_command {
+	local command="$1"
+	which $command > /dev/null || error "Command '$command' is needed but is not found. Please, install it before continue." -3
+}
+
 function credits() {
 	echo "$(basename $0) v$VERSION - Utility for basic Ubuntu systems administration."
 	echo "Diego Lago González <diego.lago.gonzalez@gmail.com> - http://github.com/diegolagoglez"
@@ -42,6 +47,7 @@ function check_filesystem_type() {
 
 function make_snapshot() {
 	check_root
+	check_command btrfs
 	root_dev=$(/bin/df | grep \/$ | cut -d' ' -f1)
 	dev_fs=$(/bin/df -T | grep \/$ | awk '{print $2}')
 	check_filesystem_type $dev_fs
