@@ -15,6 +15,12 @@ function check_root() {
 	fi
 }
 
+function check_ubuntu {
+	if [ $(lsb_release -i | awk '{print $3}') != "Ubuntu" ]; then
+		error "This is not a Ubuntu system." -2
+	fi
+}
+
 function credits() {
 	echo "$(basename $0) v$VERSION - Utility for basic Ubuntu systems administration."
 	echo "Diego Lago González <diego.lago.gonzalez@gmail.com> - http://github.com/diegolagoglez"
@@ -60,6 +66,7 @@ function main() {
 		exit 1
 	fi
 
+	check_ubuntu
 	local command="$1"
 	shift
 	case "$command" in
