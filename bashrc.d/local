@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export LD_LIBRARY_PATH=/usr/local/lib
+
+# Launch Sublime Text with libgio > 2.26
+alias sub='LD_LIBRARY_PATH=/usr/local/lib/newest/lib:$LD_LIBRARY_PATH sublime_text $*'
+
