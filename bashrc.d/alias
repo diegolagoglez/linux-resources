@@ -17,6 +17,8 @@ alias df='df -Th'
 #alias dateiso='date +%Y-%m-%dT%H:%M:%S.%N | cut -b 1-23'
 alias isodate='date +%FT%H:%M:%S%:z'
 
+# less with -F (exit if text fits one screen) and -X (no clear screen after running).
+alias less='less -FX'
 # 'less' alias with more information.
 alias L='less -NR -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
 alias Ln='less -R -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
