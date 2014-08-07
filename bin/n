@@ -18,13 +18,13 @@ function usage() {
 	echo "n - Command to control several net functions."
 	echo "Usage: n <option>"
 	echo "Options:"
-	echo "  on                       : Starts Network Manager."
-	echo "  off                      : Stops Network Manager."
-	echo '  map [<address/mask>]     : Scans the network (with nmap to local addresses 192.168.1.0/24).'
-	echo "  ss                       : Stop services (list from ~/.config/nss/*)."
-	echo "  ssl                      : List services to stop."
-	echo '  mac [<mac>|reset|random] : Change MAC address to <mac>, resets it or puts a random mac.'
-	echo '  lswifi|l                 : List detected wifi networks.'
+	echo "  on                        : Starts Network Manager."
+	echo "  off                       : Stops Network Manager."
+	echo '  map [<address/mask>]      : Scans the network (with nmap to local addresses 192.168.1.0/24).'
+	echo "  ss                        : Stop services (list from ~/.config/nss/*)."
+	echo "  ssl                       : List services to stop."
+	echo '  mac [<mac>|reset|random|r]: Change MAC address to <mac>, resets it or puts a random mac.'
+	echo '  lswifi|l                  : List detected wifi networks.'
 }
 
 function lswifi() {
@@ -93,7 +93,7 @@ function change_mac() {
 		sudo macchanger -p $interface
 		current_mac=$(get_current_mac_address $interface)
 		echo "Permanent MAC address is '$current_mac'."
-	elif [ "$1" == "random" ]; then
+	elif [ "$1" == "random" -o "$1" == "r" ]; then
 		echo "Setting a random MAC address from '$current_mac' on '$interface'..."
 		sudo macchanger -A $interface
 		current_mac=$(get_current_mac_address $interface)
