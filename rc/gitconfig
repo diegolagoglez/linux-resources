@@ -20,7 +20,8 @@
 	lg = log --graph --pretty=\"%Cred%h %Cgreen%ai%Creset %s%C(yellow)%d %Cblue[%an]\" -n 25
 	rso = remote show origin
 	bd = branch-description
-	d = diff
+	d = diff --color-words
+	df = diff
 [merge]
 	commit = no
 	ff = no
