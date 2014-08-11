@@ -17,7 +17,7 @@
 	aliases = config --global --list
 	graph = log --graph --oneline
 	l = log --graph --pretty=\"%Cred%h %Cgreen%ai%Creset %s%C(yellow)%d %Cblue[%an]\"
-	lg = log --graph --pretty=\"%Cred%h %Cgreen%ai%Creset %s%C(yellow)%d %Cblue[%an]\" -n 25
+	lg = !git log --graph --pretty=\"%Cred%h %Cgreen%ai%Creset %s%C(yellow)%d %Cblue[%an]\" -n 25 && echo '[ *** Showing only the last 25 log lines *** ]'
 	rso = remote show origin
 	bd = branch-description
 	d = diff --color-words
