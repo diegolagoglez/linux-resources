@@ -22,6 +22,9 @@
 	bd = branch-description
 	d = diff --color-words
 	df = diff
+	dc = diff --cached --color-words
+	unstage = reset HEAD
+	discard = checkout --
 [merge]
 	commit = no
 	ff = no
