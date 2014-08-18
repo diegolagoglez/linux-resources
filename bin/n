@@ -24,6 +24,7 @@ function usage() {
 	echo "  ss                        : Stop services (list from ~/.config/nss/*)."
 	echo "  ssl                       : List services to stop."
 	echo '  mac [<mac>|reset|random|r]: Change MAC address to <mac>, resets it or puts a random mac.'
+	echo "  m                         : Same as mac random."
 	echo '  lswifi|l                  : List detected wifi networks.'
 }
 
@@ -131,6 +132,9 @@ case "$1" in
 	mac)
 		shift
 		change_mac $@
+	;;
+	m)
+		change_mac "random"
 	;;
 	lswifi|l)
 		if [ "$1" == "lswifi" ]; then
