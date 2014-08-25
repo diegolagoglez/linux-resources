@@ -29,6 +29,7 @@
 [merge]
 	commit = no
 	ff = no
+	log = true
 [log]
 	date = iso
 [branch]
