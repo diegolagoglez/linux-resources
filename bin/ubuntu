@@ -66,7 +66,8 @@ function make_snapshot() {
 	for dir in $tmp_dir/*; do
 		to_snapshot=$(echo $(basename $dir) | grep "^@" | grep -v snapshot)
 		if [ -n "$to_snapshot" ]; then
-			echo "btrfs subvolume snapshot $tmp_dir/$to_snapshot $tmp_dir/$to_snapshot-$date"
+			# echo "btrfs subvolume snapshot $tmp_dir/$to_snapshot $tmp_dir/$to_snapshot-$date"
+			btrfs subvolume snapshot $tmp_dir/$to_snapshot $tmp_dir/$to_snapshot-$date
 			if [ $? != 0 ]; then
 				error "Cannot create snapshot from $tmp_dir/$to_snapshot to $tmp_dir/$to_snapshot-$date" -5
 			fi
