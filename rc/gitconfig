@@ -26,6 +26,7 @@
 	dc = diff --cached --color-words
 	unstage = reset HEAD
 	discard = checkout --
+	whatadded = log --diff-filter=A --
 [merge]
 	commit = no
 	ff = no
