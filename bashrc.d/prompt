@@ -124,6 +124,10 @@ function jobs_info() {
 	fi
 }
 
+function is_under_screen() {
+	test "$TERM" == "screen" -o ! -z "$TMUX"
+}
+
 # Prints terminal (TERM) if we are under screen or tmux utilities.
 function prompt_under_screen() {
 	if [ "$TERM" == "screen" ]; then
