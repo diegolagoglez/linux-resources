@@ -155,11 +155,11 @@ function prompt_command() {
 
 function export_prompt_ok_fail_chars {
 	if [[ -z "$PROMPT_CHAR_OK" ]]; then
-		PROMPT_CHAR_OK="•"
+		is_under_screen && PROMPT_CHAR_OK='*' || PROMPT_CHAR_OK="•"
 	fi
 
 	if [[ -z "$PROMPT_CHAR_FAIL" ]]; then
-		PROMPT_CHAR_FAIL="×"
+		is_under_screen && PROMPT_CHAR_FAIL='!' || PROMPT_CHAR_FAIL="×"
 	fi
 }
 
