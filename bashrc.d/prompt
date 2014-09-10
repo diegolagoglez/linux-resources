@@ -125,7 +125,7 @@ function jobs_info() {
 }
 
 # Prints terminal (TERM) if we are under screen or tmux utilities.
-function under_screen() {
+function prompt_under_screen() {
 	if [ "$TERM" == "screen" ]; then
 		if [[ ! -z "$TMUX" ]]; then
 			# Under tmux, not screen.
@@ -189,7 +189,7 @@ git_ps1_properties
 PROMPT_COMMAND='prompt_command'
 
 PS1=""	# Resets prompt.
-PS1+="$(under_screen)"
+PS1+="$(prompt_under_screen)"
 PS1+="\$(jobs_info '[jobs:$green%s$reset|$red%s$reset] ')"
 PS1+="${debian_chroot:+($debian_chroot)}"
 PS1+="$(user_color)\u$i_yellow@$(host_color)\H$white "
@@ -200,3 +200,4 @@ construct_git_prompt
 PS1+="\$([ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ] && echo '$i_green$PROMPT_CHAR_OK' || echo '$i_red$PROMPT_CHAR_FAIL')$reset \\$ $reset"
 
 export PS1
+
