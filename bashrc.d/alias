@@ -18,11 +18,11 @@ alias df='df -Th'
 alias isodate='date +%FT%H:%M:%S%:z'
 
 # less with -F (exit if text fits one screen) and -X (no clear screen after running).
-alias less='less -FX'
+alias less='less -FX --tabs=4'
 # 'less' alias with more information.
-alias L='less -NR -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
-alias Ln='less -R -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
-alias lerr='less -R'
+alias L='less --tabs=4 -NR -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
+alias Ln='less --tabs=4 -R -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
+alias lerr='less --tabs=4 -R'
 
 # Alias for 'time' (not builtin)
 #alias xtime="/usr/bin/time -f 'Time: %E\nSyst: %S\nUser: %U'"
