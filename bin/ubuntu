@@ -37,13 +37,18 @@ function usage() {
 	echo "Usage: $(basename $0) [command] [options]"
 	echo "Commands:"
 	echo "  snapshot : Makes an btrfs snapshot of the btrfs Ubuntu layout."
-	echo "   upgrade : Upgrades all the systema packages."
+	echo "    update : Update packages index."
+	echo "   upgrade : Upgrades all the system packages."
 	echo "      help : Show this help and exits."
 }
 
 function upgrade_system() {
 	type aptitude > /dev/null 2>&1 || error "Unable to do a full upgrade. 'aptitude' command not found." -5
 	sudo aptitude safe-upgrade -y
+}
+
+function update_packages_index() {
+	sudo apt-get update
 }
 
 function check_filesystem_type() {
@@ -88,6 +93,9 @@ function main() {
 	case "$command" in
 		"snapshot")
 			make_snapshot $@
+		;;
+		"update")
+			update_packages_index $@
 		;;
 		"upgrade")
 			upgrade_system $@
