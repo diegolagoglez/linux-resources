@@ -17,12 +17,6 @@ function error() {
 	fi
 }
 
-function check_root() {
-	if [ $(id -u) != 0 ]; then
-		error "You must be root to run this command." -1
-	fi
-}
-
 function check_ubuntu {
 	if [ $(lsb_release -i | awk '{print $3}') != "Ubuntu" ]; then
 		error "This is not a Ubuntu system." -2
@@ -54,27 +48,26 @@ function check_filesystem_type() {
 }
 
 function make_snapshot() {
-	check_root
 	check_command btrfs
 	root_dev=$(/bin/df | grep \/$ | cut -d' ' -f1)
 	dev_fs=$(/bin/df -T | grep \/$ | awk '{print $2}')
 	check_filesystem_type $dev_fs
-	tmp_dir=$(mktemp -d /tmp/btrfs-snapshot-XXXXXXXX)
-	mount -t $dev_fs $root_dev $tmp_dir || error "Cannot mount $dev_fs" -4
+	tmp_dir=$(sudo mktemp -d /tmp/btrfs-snapshot-XXXXXXXX)
+	sudo mount -t $dev_fs $root_dev $tmp_dir || error "Cannot mount $dev_fs" -4
 	# Device is mounted. Do the actual snapshot.
 	local date=$(date +%Y%m%d%H%M%S)
 	for dir in $tmp_dir/*; do
 		to_snapshot=$(echo $(basename $dir) | grep "^@" | grep -v snapshot)
 		if [ -n "$to_snapshot" ]; then
 			# echo "btrfs subvolume snapshot $tmp_dir/$to_snapshot $tmp_dir/$to_snapshot-$date"
-			btrfs subvolume snapshot $tmp_dir/$to_snapshot $tmp_dir/$to_snapshot-$date
+			sudo btrfs subvolume snapshot $tmp_dir/$to_snapshot $tmp_dir/$to_snapshot-$date
 			if [ $? != 0 ]; then
 				error "Cannot create snapshot from $tmp_dir/$to_snapshot to $tmp_dir/$to_snapshot-$date" -5
 			fi
 		fi
 	done
-	umount $tmp_dir
-	rmdir $tmp_dir
+	sudo umount $tmp_dir
+	sudo rmdir $tmp_dir
 }
 
 function main() {
