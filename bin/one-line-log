@@ -1,7 +1,14 @@
 #!/bin/bash
 
-while read; do
-	echo -e "\r\033[0K${REPLY}" | tr -d '\n'
-done
+function one_line_log() {
+	while read; do
+		echo -e "\r\033[0K${REPLY}" | tr -d '\n'
+	done
+	echo
+}
 
-echo
+function main() {
+	one_line_log
+}
+
+main $@
