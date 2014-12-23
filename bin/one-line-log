@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while read; do
+	echo -e "\r$REPLY" | tr -d '\n'
+done
+
+echo
