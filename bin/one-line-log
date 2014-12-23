@@ -1,29 +1,34 @@
 #!/bin/bash
 
-SKIP_AFTER=0
 SKIP_BEFORE=0
+NO_ADD_N=
 REGEX=""
+MSG=""
 
 function usage() {
 	echo "$(basename $0) - Utility to show a multiline log as a one single line (overriding previous)."
 	echo "Diego Lago González <diego.lago.gonzalez@gmail.com>"
 	echo "Usage: <command> | one-line-log [options]"
 	echo "Options:"
-	echo "  -A <n>     : Skip <n> lines after."
-	echo "  -B <n>     : Skip <n> lines before."
-	echo "  -r <regex> : Skip lines matching <regex> regular expression."
-	echo "  -h         : Show this help."
+	echo " -s <n>   Skip <n> lines before."
+	echo " -m <msg> Show this message after last line."
+	echo " -n       Do not add a \\n after last line."
+	#echo "  -r <regex> : Skip lines matching <regex> regular expression."
+	echo " -h       Show this help."
 	exit 1
 }
 
 function parse_options() {
-	while getopts ":A:B:r:h" opt; do
+	while getopts ":s:r:m:nh" opt; do
 		case "$opt" in
-			A)
-				SKIP_AFTER=$OPTARG
-			;;
-			B)
+			s)
 				SKIP_BEFORE=$OPTARG
+			;;
+			m)
+				MSG=$OPTARG
+			;;
+			n)
+				NO_ADD_N=yes
 			;;
 			r)
 				REGEX=$OPTARG
@@ -44,15 +49,24 @@ function parse_options() {
 }
 
 function one_line_log() {
+	while [[ $SKIP_BEFORE -gt 0 ]] && read; do
+		echo $REPLY
+		SKIP_BEFORE=$(($SKIP_BEFORE - 1))
+	done
 	while read; do
 		echo -e "\r\033[0K${REPLY}" | tr -d '\n'
 	done
-	echo
+	if [ -z "$NO_ADD_N" ]; then
+		echo
+	fi
+	if [ ! -z "$MSG" ]; then
+		echo -e "\r\033[0K${MSG}"
+	fi
 }
 
 function main() {
-	parse_options $@
+	parse_options "$@"
 	one_line_log
 }
 
-main $@
+main "$@"
