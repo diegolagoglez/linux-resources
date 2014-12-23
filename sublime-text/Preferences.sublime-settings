@@ -15,7 +15,8 @@
 	"ignored_packages":
 	[
 		"GitGutter",
-		"Vintage"
+		"Vintage",
+		"SideBarEnhancements"
 	],
 	"indent_guide_options":
 	[
