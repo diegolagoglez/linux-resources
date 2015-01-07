@@ -4,6 +4,9 @@
 import sys
 import os.path
 
+color_special_char = '\033[91m'
+color_reset = '\033[0m'
+
 chars = {
 	" ": "·",
 	"\t": "→  ",
@@ -18,7 +21,9 @@ def print_file(file):
 			if not c:
 				break
 			if c in chars:
+				sys.stdout.write(color_special_char)
 				sys.stdout.write(chars[c])
+				sys.stdout.write(color_reset)
 			else:
 				sys.stdout.write(c)
 	else:
