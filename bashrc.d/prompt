@@ -206,6 +206,6 @@ PS1+="\$([ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ] && echo '$i_green$PROMPT_CHAR_OK
 export PS1
 
 # Better PS4 prompt to show debugging information.
-PS4="> ${i_blue}\${FUNCNAME[0]:+\${FUNCNAME[0]}${bi_red}@}${i_green}\$(basename \${BASH_SOURCE})${reset}:${i_red}\${LINENO}${reset}: "
+PS4="> ${cyan}\${FUNCNAME[0]:+\${FUNCNAME[0]}${bi_red}@}${i_green}\$(basename \${BASH_SOURCE})${reset}:${i_red}\${LINENO}${reset}: "
 
 export PS4
