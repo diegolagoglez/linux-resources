@@ -205,3 +205,7 @@ PS1+="\$([ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ] && echo '$i_green$PROMPT_CHAR_OK
 
 export PS1
 
+# Better PS4 prompt to show debugging information.
+PS4='> ${FUNCNAME[0]:+${FUNCNAME[0]}@}$(basename ${BASH_SOURCE}):${LINENO}: '
+
+export PS4
