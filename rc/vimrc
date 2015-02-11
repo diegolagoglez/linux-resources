@@ -7,6 +7,9 @@
 " Número de líneas de historial para deshacer.
 set history=200
 
+" Shell BASH
+set shell=/bin/bash
+
 " Plugins para tipos de archivos (no se lo que es, pero lo activo).
 filetype plugin on
 filetype indent on
