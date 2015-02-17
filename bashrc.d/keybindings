@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Enable Ctrl+Left and Ctrl+Right keybindings:
+
+bind '"\e[1;5C":forward-word'   # Ctrl+Right
+bind '"\e[1;5D":backward-word'  # Ctrl+Left
