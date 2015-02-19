@@ -1,0 +1,12 @@
+#!/bin/bash
+
+INVALID_COMMAND="__XXXX_XXXX__"
+
+# Localize 'command not found' string.
+command_not_found_text=$($INVALID_COMMAND 2>&1 | cut -d':' -f4)
+
+if [ "$*" == "answer to life the universe and everything" -o "$*" == "answer to life, the universe and everything" ]; then
+	echo 42
+else
+	echo "-bash: the:$command_not_found_text"
+fi
