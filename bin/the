@@ -1,6 +1,15 @@
 #!/bin/bash
 
-INVALID_COMMAND="__XXXX_XXXX__"
+# Check if there is a command named like me that it's not me :S
+
+INVALID_COMMAND="__XXXX_EASTER_EGG_XXXX__"
+
+if type $(basename $0) >/dev/null && ! grep $INVALID_COMMAND $(which $(basename $0)) >/dev/null; then
+	echo "WARNING: There is other command named 'the'!" 1>&2
+	echo "         Please, remove this easter egg from '$0' in" 1>&2
+	echo "         order to the command at '$(which $(basename $0))' works." 1>&2
+	exit 1
+fi
 
 # Localize 'command not found' string.
 command_not_found_text=$($INVALID_COMMAND 2>&1 | cut -d':' -f4)
