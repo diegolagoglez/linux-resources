@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# Enable Ctrl+Left and Ctrl+Right keybindings:
-
-bind '"\e[1;5C":forward-word'   # Ctrl+Right
-bind '"\e[1;5D":backward-word'  # Ctrl+Left
+# Enable Ctrl+Left and Ctrl+Right keybindings. Use the case statement to
+# avoid 'bind' warnings when no interactive shell (e.g. when doing scp).
+case "$TERM" in
+	xterm*|rxvt*)
+		bind '"\e[1;5C":forward-word'   # Ctrl+Right
+		bind '"\e[1;5D":backward-word'  # Ctrl+Left
+	;;
+esac
