@@ -44,3 +44,5 @@
 	smtpserverport = 587
 [push]
 	default = simple
+[status]
+	submoduleSummary = true
