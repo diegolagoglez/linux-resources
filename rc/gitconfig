@@ -3,7 +3,7 @@
 	email = diego.lago.gonzalez@gmail.com
 [core]
 	editor = vim
-	pager = less --tabs=4
+	pager = less -FXn4
 [color]
 	ui = true
 [alias]
