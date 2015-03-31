@@ -23,6 +23,7 @@ alias less='less -FX --tabs=4'
 alias L='less --tabs=4 -NR -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
 alias Ln='less --tabs=4 -R -P "?f%f:<stdin>.?m (%i/%m). [%s bytes] %lt/%L (%pB \%) ?x-> ?x%x"'
 alias lerr='less --tabs=4 -R'
+alias lessf='less +F' # less watching mode (similar to tail -f).
 
 # Alias for 'time' (not builtin)
 #alias xtime="/usr/bin/time -f 'Time: %E\nSyst: %S\nUser: %U'"
