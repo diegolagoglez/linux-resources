@@ -27,17 +27,17 @@ export PATH=$PATH:~/bin
 
 ## Environment Installation ##
 
-Copy the files into `~/projects/linux-resources/bashrc.d` to any directory you want (I prefer put them into `~/.bashrc.d/`) or link that directory into home with:
+Copy files and symlinks from `~/projects/linux-resources/bashrc.d` to any directory you want (I prefer put them into `~/.bashrc.d/`) or link that directory into home with:
 
 ```bash
 user@host:~:$ ln -s ~/projects/linux-resources/bashrc.d .bashrc.d
 ```
 
-Then, add the following lines into `~/.bashrc`:
+Then, add the following lines into `~/.bashrc` (sourcing only sorted symbolic links to ensure precedence):
 
 ```bash
 if [ -d ~/.bashrc.d/ ]; then
-  for file in ~/.bashrc.d/*; do
+  for file in $(find ~/.bashrc.d/ -type l | sort); do
     source $file
   done
 fi
@@ -62,8 +62,17 @@ Files in `bashrc.d` directory:
 
 - `alias`: Custom aliases (ll, la, df...).
 - `bash-config`: BASH shell configuration (history, history size...).
+- `keybindings`: Some BASH keybindings.
 - `prompt`: Custom prompt (including jobs, user, host, screen/tmux, git, return status...);
 - `utils`: Utility functions (currently trim, trim-left and trim-right).
+
+There are symlinks linking to these files to ensure precedence:
+
+- `00 -> bash-config` and `05 -> keybindings` (0x for BASH configuration).
+- `10 -> utils` (1x for BASH utilities).
+- `20 -> alias` (2x for user configuration).
+- `30 -> prompt` (3x for more user configuration).
+- `90 -> local` (9x for some local configuration; not included into this repository).
 
 ### Tools ###
 
