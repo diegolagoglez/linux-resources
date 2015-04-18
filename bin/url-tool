@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# From: https://gist.github.com/cdown/1163649
+
+function urlencode() {
+    # urlencode <string>
+ 
+    local length="${#1}"
+    for (( i = 0; i < length; i++ )); do
+        local c="${1:i:1}"
+        case $c in
+            [a-zA-Z0-9.~_-]) printf "$c" ;;
+            *) printf '%%%02X' "'$c"
+        esac
+    done
+}
+ 
+function urldecode() {
+    # urldecode <string>
+ 
+    local url_encoded="${1//+/ }"
+    url_encoded=$(printf '%b' "${url_encoded//%/\\x}")
+    printf '%b' "${url_encoded//%/\\x}"
+}
+
+function help() {
+	echo "$(basename $0) - Utility to encode/decode URLs."
+	echo "GPLv3 2015 - Diego Lago <diego.lago.gonzalez@gmail.com>"
+	echo "Usage: $(basename $0) [options] <url> [<url> [..]]"
+	echo "Options:"
+	echo "  -e   Encode given URLs"
+	echo "  -d   Decode given URLs"
+	echo "  -h   Show help"
+}
+
+function main() {
+
+	if [ $# == 0 ]; then
+		help
+		exit 1
+	fi
+
+	while getopts ":edh" opt; do
+		case "$opt" in
+			d)
+				action=urldecode
+				shift
+			;;
+			e)
+				action=urlencode
+				shift
+			;;
+			h)
+				help
+				exit 1
+			;;
+			\?)
+				echo "ERROR: Invalid option: -$OPTARG"
+				exit 3
+			;;
+		esac
+	done
+	
+	if [ -z "$action" ]; then
+		echo "ERROR: Invalid action (must use -e or -d)." 1>&2
+		exit 2
+	fi
+	
+	for u in "$@"; do
+		$action "$u"
+		echo
+	done
+}
+
+main "$@"
+
