@@ -66,10 +66,17 @@ function main() {
 		exit 2
 	fi
 	
-	for u in "$@"; do
-		$action "$u"
-		echo
-	done
+	if [ $# == 0 ]; then
+		while read; do
+			$action "$REPLY"
+			echo
+		done
+	else
+		for u in "$@"; do
+			$action "$u"
+			echo
+		done
+	fi
 }
 
 main "$@"
