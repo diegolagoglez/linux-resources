@@ -24,6 +24,8 @@ elif [ "$*" == "answer to life the universe" -o "$*" == "answer to life, the uni
 	echo "The answer to life, the universe... and what else?"
 elif [ "$*" == "answer to life the universe and everything" -o "$*" == "answer to life, the universe and everything" ]; then
 	echo 42
+elif [ "$*" == "42" ]; then
+	echo "42 is the answer to life, the universe and everything"
 else
 	echo "-bash: the:$command_not_found_text"
 fi
