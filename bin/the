@@ -14,7 +14,15 @@ fi
 # Localize 'command not found' string.
 command_not_found_text=$($INVALID_COMMAND 2>&1 | cut -d':' -f4)
 
-if [ "$*" == "answer to life the universe and everything" -o "$*" == "answer to life, the universe and everything" ]; then
+if [ "$*" == "help" -o "$*" == "-h" ]; then
+	echo "This is an easter egg. I cannot give you help!"
+elif [ "$*" == "answer" ]; then
+	echo "What answer?"
+elif [ "$*" == "answer to life" ]; then
+	echo "The answer to life... and what else?"
+elif [ "$*" == "answer to life the universe" -o "$*" == "answer to life, the universe" ]; then
+	echo "The answer to life, the universe... and what else?"
+elif [ "$*" == "answer to life the universe and everything" -o "$*" == "answer to life, the universe and everything" ]; then
 	echo 42
 else
 	echo "-bash: the:$command_not_found_text"
