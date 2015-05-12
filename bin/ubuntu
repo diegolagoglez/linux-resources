@@ -36,11 +36,11 @@ function credits() {
 function usage() {
 	echo "Usage: $(basename $0) [command] [options]"
 	echo "Commands:"
-	echo "  snapshot : Makes an btrfs snapshot of the btrfs Ubuntu layout."
-	echo "    update : Update packages index."
-	echo "   upgrade : Upgrades all the system packages."
-	echo "   version : Show system version."
-	echo "      help : Show this help and exits."
+	echo "  snapshot|s : Makes an btrfs snapshot of the btrfs Ubuntu layout."
+	echo "    update|u : Update packages index."
+	echo "   upgrade|g : Upgrades all the system packages."
+	echo "   version|v : Show system version."
+	echo "      help|h : Show this help and exits."
 }
 
 function upgrade_system() {
@@ -124,19 +124,19 @@ function main() {
 	local command="$1"
 	shift
 	case "$command" in
-		"snapshot")
+		"snapshot"|"s")
 			make_snapshot $@
 		;;
-		"update")
+		"update"|"u")
 			update_packages_index $@
 		;;
-		"upgrade")
+		"upgrade"|"g")
 			upgrade_system $@
 		;;
-		"version")
+		"version"|"v")
 			show_version "$@"
 		;;
-		"help")
+		"help"|"h")
 			credits
 			usage
 		;;
