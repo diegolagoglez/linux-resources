@@ -133,13 +133,13 @@ function main() {
 	shift
 	case "$command" in
 		"snapshot"|"s")
-			make_snapshot $@
+			make_snapshot "$@"
 		;;
 		"update"|"u")
-			update_packages_index $@
+			update_packages_index "$@"
 		;;
 		"upgrade"|"g")
-			upgrade_system $@
+			upgrade_system "$@"
 		;;
 		"version"|"v")
 			show_version "$@"
