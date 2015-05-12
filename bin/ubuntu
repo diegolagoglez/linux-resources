@@ -91,6 +91,9 @@ function show_version() {
 	while getopts ":haidrcs" opt; do
 		case "$opt" in
 			h)
+				echo "$(basename $0) version - Show system version information."
+				echo "Usage: $(basename $0) version [options]"
+				echo "Options:"
 				echo " -h   This help."
 				echo " -a   Full version information."
 				echo " -i   Distributor ID."
