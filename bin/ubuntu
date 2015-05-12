@@ -83,10 +83,13 @@ function make_snapshot() {
 }
 
 function show_version() {
-	if [ $# -gt 0 ]; then
-		OPTIONS=
+	if [ $# -le 0 ]; then
+		local release=$(lsb_release -ds | cut -d' ' -f2-)
+		local codename=$(lsb_release -cs)
+		echo $release $codename
+		exit 0
 	else
-		OPTIONS="-ds"
+		OPTIONS=
 	fi
 	while getopts ":haidrcs" opt; do
 		case "$opt" in
@@ -101,6 +104,8 @@ function show_version() {
 				echo " -r   Release number of this distribution."
 				echo " -c   Codename of this distribution."
 				echo " -s   Short version of the information (default)."
+				echo "With no options, show release and codename."
+				exit 1
 			;;
 			a|i|d|r|c|s)
 				OPTIONS+=" -$opt"
