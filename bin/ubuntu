@@ -39,6 +39,7 @@ function usage() {
 	echo "  snapshot : Makes an btrfs snapshot of the btrfs Ubuntu layout."
 	echo "    update : Update packages index."
 	echo "   upgrade : Upgrades all the system packages."
+	echo "   version : Show system version."
 	echo "      help : Show this help and exits."
 }
 
@@ -81,6 +82,38 @@ function make_snapshot() {
 	sudo rmdir $tmp_dir
 }
 
+function show_version() {
+	if [ $# -gt 0 ]; then
+		OPTIONS=
+	else
+		OPTIONS="-ds"
+	fi
+	while getopts ":haidrcs" opt; do
+		case "$opt" in
+			h)
+				echo " -h   This help."
+				echo " -a   Full version information."
+				echo " -i   Distributor ID."
+				echo " -d   Description of this distribution (default)."
+				echo " -r   Release number of this distribution."
+				echo " -c   Codename of this distribution."
+				echo " -s   Short version of the information (default)."
+			;;
+			a|i|d|r|c|s)
+				OPTIONS+=" -$opt"
+			;;
+			\?)
+				error "Invalid option for subcommand: -$OPTARG" 2
+			;;
+			:)
+				error "Option -$OPTARG requires an argument." 2
+			;;
+		esac
+	done
+
+	lsb_release $OPTIONS
+}
+
 function main() {
 	if [ $# -eq 0 ]; then
 		usage
@@ -99,6 +132,9 @@ function main() {
 		;;
 		"upgrade")
 			upgrade_system $@
+		;;
+		"version")
+			show_version "$@"
 		;;
 		"help")
 			credits
