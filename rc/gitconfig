@@ -29,6 +29,7 @@
 	unstage = reset HEAD
 	discard = checkout --
 	whatadded = log --diff-filter=A --
+	rootpath = rev-parse --show-toplevel
 [merge]
 	commit = no
 	ff = no
