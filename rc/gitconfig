@@ -28,6 +28,7 @@
 	dc = diff --cached --color-words
 	unstage = reset HEAD
 	discard = checkout --
+	discard-all = !git checkout -- $(git rev-parse --show-toplevel)
 	whatadded = log --diff-filter=A --
 	rootpath = rev-parse --show-toplevel
 [merge]
