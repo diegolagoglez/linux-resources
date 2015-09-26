@@ -131,12 +131,15 @@ function is_under_screen() {
 # Prints terminal (TERM) if we are under screen or tmux utilities.
 function prompt_under_screen() {
 	if [ "$TERM" == "screen" ]; then
-		if [[ ! -z "$TMUX" ]]; then
+		if [[ ! -z "$BYOBU_TTY" ]]; then
+			# Under byobu, not screen.
+			echo -n "[byobu \$(tmux display-message -p '#W')] "
+		elif [[ ! -z "$TMUX" ]]; then
 			# Under tmux, not screen.
-			echo -n "[tmux:$(echo $TMUX_PANE | cut -c2-)] "
+			echo -n "[tmux \$(tmux display-message -p '#W')] "
 		else
 			# Under screen.
-			echo -n "[screen:$WINDOW] "
+			echo -n "[screen $WINDOW] "
 		fi
 	fi
 }
