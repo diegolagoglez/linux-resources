@@ -1,0 +1,10 @@
+# Byobu Local Configuration
+
+## Introduction
+
+This is the local configuration for Byobu Text Based Window Manager.
+
+## Instalation
+
+Install binaries in $HOME/.byobu/bin
+
