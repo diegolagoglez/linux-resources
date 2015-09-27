@@ -19,6 +19,18 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+COLOR_THRESHOLD_MEDIUM=0
+COLOR_THRESHOLD_HIGH=1
+
+__calc_color() {
+	[ -n "$1" ] || echo g
+	local loadint="$(echo $1 | cut -d'.' -f1)"
+	local bgcolor=g
+	[ $loadint -gt $COLOR_THRESHOLD_MEDIUM ] && bgcolor=y
+	[ $loadint -gt $COLOR_THRESHOLD_HIGH ] && bgcolor=r
+	color $bgcolor w
+}
+
 __load_average_detail() {
 	cat /proc/loadavg
 }
