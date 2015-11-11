@@ -19,7 +19,7 @@
 	bnm = branch --no-merged
 	aliases = config --global --list
 	graph = log --graph --oneline
-	l = log --graph --pretty=\"%Cred%h %Cgreen%ai %Cblue%an%Creset %s%C(yellow)%d\"
+	l = log --graph --pretty=\"%Cred%h %Cgreen%ad %Cblue%an%Creset %s%C(yellow)%d\" --date='format:%F %T'
 	le = log --graph --pretty=\"%Cred%h %Cgreen%ai %Cblue%an <%ae>%Creset %s%C(yellow)%d\"
 	rso = remote show origin
 	bd = branch-description
