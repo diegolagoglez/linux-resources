@@ -12,3 +12,8 @@ startup_message off
 # Message line.
 hardstatus alwayslastline " %-w%{= kw} %n %t %{-}%+w %=%0`@%H | %l | %Y-%m-%d %0c:%s "
 
+# Use mouse wheel to do scroll.
+termcapinfo rxvt-unicode ti@:te@
+termcapinfo rxvt ti@:te@
+termcapinfo rxvt 'hs:ts=\E]2;:fs=07:ds=\E]2;screen07'
+
