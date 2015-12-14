@@ -85,6 +85,10 @@ bgi_white='\[\033[0;107m\]'
 
 reset='\[\033[0m\]'
 
+function terminal_supports_utf8() {
+	[[ "$LANG" =~ "utf8" ]]
+}
+
 # This function changes user color depending on which user
 # you are (red if you are root, blue in any other case).
 function user_color() {
