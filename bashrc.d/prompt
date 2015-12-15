@@ -86,7 +86,7 @@ bgi_white='\[\033[0;107m\]'
 reset='\[\033[0m\]'
 
 function terminal_supports_utf8() {
-	[[ "$LANG" =~ "utf8" ]]
+	[[ "$LANG" =~ "utf8" || "$LANG" =~ "UTF8" || "$LANG" =~ "utf-8" || "$LANG" =~ "UTF-8" ]]
 }
 
 # This function changes user color depending on which user
