@@ -143,7 +143,11 @@ function prompt_under_screen() {
 			echo -n "[tmux \$(tmux display-message -p '#W')] "
 		else
 			# Under screen.
-			echo -n "[screen $WINDOW] "
+			echo -n "[screen"
+			if [ ! -z "$WINDOW" ]; then
+				echo -n " $WINDOW"
+			fi
+			echo -n "] "
 		fi
 	fi
 }
