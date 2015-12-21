@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # BASH history control:
-# History size (by BASH session): 5000 commands.
-HISTSIZE=5000
+# History size (by BASH session): 50000 commands.
+HISTSIZE=50000
 
 # Size of file where history is saved (in lines).
 HISTFILESIZE=50000
