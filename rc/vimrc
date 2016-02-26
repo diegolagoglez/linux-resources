@@ -133,3 +133,8 @@ function! FileSize()
 	endif
 endfunction
 
+" Diff colors
+hi DiffAdd ctermbg=green ctermfg=white
+hi DiffDelete ctermbg=red ctermfg=white
+hi DiffChange ctermbg=yellow ctermfg=white
+hi DiffText ctermbg=cyan ctermfg=white
