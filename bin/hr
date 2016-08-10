@@ -73,13 +73,13 @@ function print_horizontal_line_with_title() {
 	local cols=$(tput cols)
 	local util_cols=$((cols -  title_width))
 	local half_cols=$((util_cols / 2))
-	if [ "$ALIGN" != "l" -a "$ALIGN" != "r" ]; then
+	if [ "$ALIGN" == "c" ]; then
 		print_horizontal_line $half_cols
 	elif [ "$ALIGN" == "r" ]; then
 		print_horizontal_line $util_cols
 	fi
 	echo -n "$TITLE"
-	if [ "$ALIGN" != "r"  -a "$ALIGN" != "l" ]; then
+	if [ "$ALIGN" == "c" ]; then
 		print_horizontal_line $((util_cols - half_cols))
 	elif [ "$ALIGN" == "l" ]; then
 		print_horizontal_line $util_cols
