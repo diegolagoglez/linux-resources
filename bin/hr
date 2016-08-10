@@ -2,6 +2,7 @@
 
 CHAR="-"
 TITLE=
+ALIGN="c"
 
 function error() {
 	echo "ERROR: $1" 1>&2
@@ -23,9 +24,19 @@ function apply_global_configuration() {
 	fi
 }
 
+function check_align_argument() {
+	if [ "$ALIGN" != "l" -a "$ALIGN" != "c" -a "$ALIGN" != "r" ]; then
+		error "Invalid align type: $ALIGN (valid ones are 'l', 'c' and 'r')." 2
+	fi
+}
+
 function process_arguments() {
-	while getopts ":c:ht:" opt; do
+	while getopts ":a:c:ht:" opt; do
 		case "$opt" in
+			a)
+				ALIGN="$OPTARG"
+				check_align_argument
+			;;
 			c)
 				CHAR="$OPTARG"
 			;;
