@@ -1,0 +1,79 @@
+#!/bin/bash
+
+CHAR="-"
+TITLE=
+
+function error() {
+	echo "ERROR: $1" 1>&2
+	exit $2
+}
+
+function print_help() {
+	echo "hr - Print an horizontal line as wide as terminal."
+	echo "GPLv3 - Diego Lago <diego.lago.gonzalez@gmail.com>"
+	echo "Usage: $(basename -- $0) [option]"
+	echo "Options:"
+	echo "  -c CHAR  Set char used to print line (default is $CHAR; use \$HORIZONTAL_LINE_CHAR var to set it globally)."
+	echo "  -h       Show this help and exit."
+}
+
+function apply_global_configuration() {
+	if [ ! -z "$HORIZONTAL_LINE_CHAR" ]; then
+		CHAR="$HORIZONTAL_LINE_CHAR"
+	fi
+}
+
+function process_arguments() {
+	while getopts ":c:ht:" opt; do
+		case "$opt" in
+			c)
+				CHAR="$OPTARG"
+			;;
+			h)
+				print_help
+				exit
+			;;
+			t)
+				TITLE="$OPTARG"
+			;;
+			\?)
+				error "Invalid option: -$OPTARG" 1
+			;;
+			:)
+				error "Option -$OPTARG requires an argument." 1
+			;;
+		esac
+	done
+
+	return $((OPTIND - 1))
+}
+
+function print_horizontal_line() {
+	local cols="$1"
+	for i in $(seq 1 $cols); do
+		echo -n $CHAR
+	done
+}
+
+function print_horizontal_line_with_title() {
+	local title_width=${#TITLE}
+	local cols=$(tput cols)
+	local util_cols=$((cols -  title_width))
+	local half_cols=$((util_cols / 2))
+	print_horizontal_line $half_cols
+	echo -n $TITLE
+	print_horizontal_line $((util_cols - half_cols))
+}
+
+function main() {
+	apply_global_configuration
+	process_arguments "$@"
+	shift $?
+	if [ -z "$TITLE" ]; then
+		print_horizontal_line $(tput cols)
+	else
+		print_horizontal_line_with_title
+	fi
+}
+
+main "$@"
