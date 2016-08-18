@@ -9,6 +9,8 @@ This project has all my Linux resources (tools, scripts, configuration files…)
 * `rc`: Linux console configuration files.
 * `sublime-text`: Sublime Text configuration and customization files.
 
+Project main repository is at: https://github.com/diegolagoglez/linux-resources.git 
+
 ## Tools Installation ##
 
 Make a link into your home directory to the binary tools directory. Example:
