@@ -1,7 +1,12 @@
 Configuration files for command line utilities
-----------------------------------------------
+==============================================
 
 Link this files into home with:
 
 ln -s ~/projects/personal-bash-tools/rc/rcfile ~/.rcfile
+
+Main Project
+------------
+
+git clone https://github.com/diegolagoglez/linux-resources.git
 

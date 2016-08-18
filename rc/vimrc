@@ -1,6 +1,10 @@
 " Archivo personalizado de configuración de vim
 " =============================================
 
+" Proyecto Principal
+" ------------------
+" git clone https://github.com/diegolagoglez/linux-resources.git
+
 " General
 " -------
  

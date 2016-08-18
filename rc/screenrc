@@ -1,4 +1,5 @@
 # Screen GNU utility configuration file.
+# git clone https://github.com/diegolagoglez/linux-resources.git
 
 # Use BASH as default shell.
 shell "/bin/bash"

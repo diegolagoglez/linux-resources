@@ -1,4 +1,6 @@
 # Readline config file.
+# git clone https://github.com/diegolagoglez/linux-resources.git
+
 # Doc: http://www.gnu.org/software/bash/manual/html_node/Readline-Init-File-Syntax.html
 
 # Set limit of completion possibilities to 1000.
