@@ -32,10 +32,10 @@ alias lessf='less +F' # less watching mode (similar to tail -f).
 #alias xtime="/usr/bin/time -f 'Time: %E\nSyst: %S\nUser: %U'"
 
 # apt-get aliases
-alias as='apt-cache search'
+alias _as='apt-cache search'
 alias aw='apt-cache show'
 alias ai='sudo apt-get install'
-alias ar='sudo apt-get remove'
+alias _ar='sudo apt-get remove'
 alias ap='sudo apt-get purge'
 alias ac='sudo apt-get clean'
 alias aac='sudo apt-get autoclean'
@@ -44,10 +44,10 @@ alias au='sudo apt-get update'
 alias ag='sudo apt-get upgrade'
 alias apsu='sudo aptitude safe-upgrade'
 alias a?="echo apt-get command aliases help:
-echo '  as : apt-cache search'
+echo ' _as : apt-cache search'
 echo '  aw : apt-cache show'
 echo '  ai : sudo apt-get install'
-echo '  ar : sudo apt-get remove'
+echo ' _ar : sudo apt-get remove'
 echo '  ap : sudp apt-get purge'
 echo '  ac : sudo apt-get clean'
 echo ' aac : sudo apt-get autoclean'
