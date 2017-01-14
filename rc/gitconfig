@@ -23,9 +23,10 @@
 	le = log --graph --pretty=\"%Cred%h %Cgreen%ai %Cblue%an <%ae>%Creset %s%C(yellow)%d\"
 	rso = remote show origin
 	bd = branch-description
-	d = diff --color-words
-	df = diff
-	dc = diff --cached --color-words
+	d = diff
+	df = diff --color-words
+	dc = diff --cached
+	dfc = diff --cached --color-words
 	unstage = reset HEAD
 	discard = checkout --
 	discard-all = !git checkout -- $(git rev-parse --show-toplevel)
