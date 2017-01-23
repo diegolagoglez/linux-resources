@@ -31,30 +31,6 @@ alias lessf='less +F' # less watching mode (similar to tail -f).
 # Alias for 'time' (not builtin)
 #alias xtime="/usr/bin/time -f 'Time: %E\nSyst: %S\nUser: %U'"
 
-# apt-get aliases
-alias _as='apt-cache search'
-alias aw='apt-cache show'
-alias ai='sudo apt-get install'
-alias _ar='sudo apt-get remove'
-alias ap='sudo apt-get purge'
-alias ac='sudo apt-get clean'
-alias aac='sudo apt-get autoclean'
-alias aar='sudo apt-get autoremove'
-alias au='sudo apt-get update'
-alias ag='sudo apt-get upgrade'
-alias apsu='sudo aptitude safe-upgrade'
-alias a?="echo apt-get command aliases help:
-echo ' _as : apt-cache search'
-echo '  aw : apt-cache show'
-echo '  ai : sudo apt-get install'
-echo ' _ar : sudo apt-get remove'
-echo '  ap : sudp apt-get purge'
-echo '  ac : sudo apt-get clean'
-echo ' aac : sudo apt-get autoclean'
-echo ' aar : audo apt-get autoremove'
-echo '  a? : this help'
-"
-
 # Alias de sl... ¡prueba!
 alias sl='sl -e'
 
