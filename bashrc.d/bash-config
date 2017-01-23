@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # BASH history control:
-# History size (by BASH session): 50000 commands.
-HISTSIZE=50000
+# History size (by BASH session): save ALL commands.
+HISTSIZE=
 
 # Size of file where history is saved (in lines).
-HISTFILESIZE=50000
+# With no value or values less than 0 no trucation is done.
+HISTFILESIZE=
 
 # Control: ignoreboth (includes 'ignorespace' —do not save commands
 # starting by space— and 'ignoredups' —do not save duplicates—).
