@@ -46,7 +46,7 @@ __load_average() {
 	local color_one=$(__calc_color $one)
 	local color_five=$(__calc_color $five)
 	local color_fifteen=$(__calc_color $fifteen)
-	printf "$color_one$one$color_reset $color_five$five$color_reset $color_fifteen$fifteen$color_reset "
+	printf "$color_one$one$color_reset$color_five$five$color_reset$color_fifteen$fifteen$color_reset "
 }
 
 # vi: syntax=sh ts=4 noexpandtab
