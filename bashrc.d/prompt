@@ -93,18 +93,18 @@ function terminal_supports_utf8() {
 # you are (red if you are root, blue in any other case).
 function user_color() {
 	if [ $(id -u) == 0 ]; then
-		echo $i_white$bg_red
+		echo -n $i_white$bg_red
 	else
-		echo $i_blue
+		echo -n $i_blue
 	fi
 }
 
 # This function changes host color depeding on which server you are.
 function host_color() {
 	if [ -n "$I_AM_AT_CONSOLE" ]; then
-		echo $i_green
+		echo -n $i_green
 	else
-		echo $bi_red
+		echo -n $bi_red
 	fi
 }
 
@@ -212,7 +212,7 @@ PS1+="$i_cyan\w$white "
 
 construct_git_prompt
 
-PS1+="\$([ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ] && echo '$i_green$PROMPT_CHAR_OK' || echo '$i_red$PROMPT_CHAR_FAIL')$reset \\$ $reset"
+PS1+="\$([ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ] && echo -en '$i_green$PROMPT_CHAR_OK' || echo -en '$i_red$PROMPT_CHAR_FAIL')$reset \\$ $reset"
 
 export PS1
 
