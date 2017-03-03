@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DEFAULT_FILE="."
+XA_SHOW_PATHS=
 
 function error() {
 	echo "ERROR: $1" 1>&2
@@ -16,14 +17,23 @@ function require() {
 }
 
 function usage() {
-	echo "Usage: `basename $0` <command> <path>"
+	echo "Usage: `basename $0` [options] <command> [<path> [...]]"
 	echo "Commands:"
-	echo "  ls                   : List file extended attributes."
-	echo "  show                 : Show all file extended attributes."
-	echo "  set|s <name> <value> : Set attribute <name> with value <value>."
-	echo "  get|g <name>         : Get attribute <name>."
-	echo "  rm <name>            : Remove attribute <name>."
-	echo "  clear                : Remove all attributes."
+	echo "  ls                   List file extended attributes."
+	echo "  show                 Show all file extended attributes."
+	echo "  set|s <name> <value> Set attribute <name> with value <value>."
+	echo "  get|g <name>         Get attribute <name>."
+	echo "  rm <name>            Remove attribute <name>."
+	echo "  clear                Remove all attributes."
+	echo "Options:"
+	echo "  -h                   Show this help and exit."
+	echo "  -p                   Show path before attributes."
+}
+
+function show_path_if_needed() {
+	if [ ! -z "$SHOW_PATHS" ]; then
+		echo "# $1"
+	fi
 }
 
 function list_attributes() {
@@ -33,6 +43,7 @@ function list_attributes() {
 		paths=(".")
 	fi
 	for f in ${paths[@]}; do
+		show_path_if_needed $f
 		attr -ql "$f"
 	done
 }
@@ -44,6 +55,7 @@ function show_attributes() {
 		paths=(".")
 	fi
 	for f in ${paths[@]}; do
+		show_path_if_needed $f
 		attr -ql "$f" | while read; do
 			echo -n "$REPLY "
 			get_attribute "$REPLY" "$f"
@@ -60,6 +72,7 @@ function get_attribute() {
 		paths=(".")
 	fi
 	for f in ${paths[@]}; do
+		show_path_if_needed "$f"
 		attr -qg "$name" "$f"
 		echo
 	done
@@ -78,7 +91,33 @@ function remove_attributes() {
 	local name="$1"
 }
 
+function process_options() {
+	while getopts ":hp" opt; do
+		case "$opt" in
+			h)
+				usage
+				exit 1
+			;;
+			p)
+				SHOW_PATHS=yes
+			;;
+			\?)
+				error "Invalid option: -$OPTARG" 1
+			;;
+			:)
+				error "Option -$OPTARG requires an argument." 1
+			;;
+		esac
+	done
+
+	return $(( OPTIND - 1 ))
+}
+
 function main() {
+
+	process_options "$@"
+	shift $?
+
 	case "$1" in
 		ls)
 			shift
