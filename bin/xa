@@ -19,12 +19,13 @@ function require() {
 function usage() {
 	echo "Usage: `basename $0` [options] <command> [<path> [...]]"
 	echo "Commands:"
-	echo "  ls                   List file extended attributes."
+	echo "  ls|list              List file extended attributes."
 	echo "  show                 Show all file extended attributes."
 	echo "  set|s <name> <value> Set attribute <name> with value <value>."
 	echo "  get|g <name>         Get attribute <name>."
 	echo "  rm <name>            Remove attribute <name>."
-	echo "  clear                Remove all attributes."
+	#echo "  clear                Remove all attributes."
+	echo "  help                 Show this help and exit."
 	echo "Options:"
 	echo "  -h                   Show this help and exit."
 	echo "  -p                   Show path before attributes."
@@ -134,7 +135,7 @@ function main() {
 	shift $?
 
 	case "$1" in
-		ls)
+		ls|list)
 			shift
 			list_attributes "$@"
 		;;
@@ -158,7 +159,7 @@ function main() {
 			usage
 		;;
 		"")
-			error "Must specify a command. Use '$(basename -- $0) help' to show help." 1
+			error "Must specify a command. Use '$(basename -- $0) help' or '$(basename -- $0) -h' to show help." 1
 		;;
 		*)
 			error "Invalid command: $1" 1
