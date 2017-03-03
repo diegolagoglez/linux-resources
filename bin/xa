@@ -47,6 +47,7 @@ function usage() {
 	echo "  get|g <name>         Get attribute <name>."
 	echo "  rm <name>            Remove attribute <name>."
 	echo "  clear                Remove all attributes."
+	echo "  size [<name>]        Show the size of one or all attributes."
 	echo "  help                 Show this help and exit."
 	echo "Options:"
 	echo "  -h                   Show this help and exit."
@@ -72,6 +73,27 @@ function list_attributes() {
 		show_path_if_needed $f
 		attr -ql "$f"
 	done
+}
+
+function get_attribute_size() {
+	require attr
+	local attr_name="$1"
+	local path="$2"
+	LANG= attr -g "$1" "$2" | head -n1 | awk '{print $5}'
+}
+
+function get_attributes_size() {
+	local attr_name="$1"
+	local path="$2"
+	if [ "$path" == "" ]; then
+		local size=0
+		while read; do
+			size=$(( size + $(get_attribute_size "$REPLY" "$attr_name") ))
+		done < <(attr -ql "$attr_name")
+		echo $size
+	else
+		get_attribute_size "$attr_name" "$path"
+	fi
 }
 
 function show_attributes() {
@@ -207,6 +229,10 @@ function main() {
 		clear)
 			shift
 			clear_attributes "$@"
+		;;
+		size)
+			shift
+			get_attributes_size "$@"
 		;;
 		help)
 			usage
