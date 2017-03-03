@@ -32,11 +32,12 @@ function usage() {
 	echo "  help                 Show this help and exit."
 	echo "Options:"
 	echo "  -h                   Show this help and exit."
-	echo "  -p                   Show path before attributes."
+	echo "  -p                   Show path before attributes (set XA_SHOW_PATHS variable)."
+	echo "  -P                   Hide path before attributes (unset XA_SHOW_PATHS variable)."
 }
 
 function show_path_if_needed() {
-	if [ ! -z "$SHOW_PATHS" ]; then
+	if [ ! -z "$XA_SHOW_PATHS" ]; then
 		echo "# $1"
 	fi
 }
@@ -112,14 +113,17 @@ function remove_attributes() {
 }
 
 function process_options() {
-	while getopts ":hp" opt; do
+	while getopts ":hpP" opt; do
 		case "$opt" in
 			h)
 				usage
 				exit 1
 			;;
 			p)
-				SHOW_PATHS=yes
+				XA_SHOW_PATHS=yes
+			;;
+			P)
+				XA_SHOW_PATHS=
 			;;
 			\?)
 				error "Invalid option: -$OPTARG" 1
