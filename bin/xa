@@ -1,36 +1,98 @@
 #!/bin/bash
 
+DEFAULT_FILE="."
+
 function error() {
-        echo "ERROR:" $@ 1>&2
+	echo "ERROR: $1" 1>&2
+	if [[ $2 =~ [0-9]+ ]]; then
+		exit $2
+	fi
+}
+
+function require() {
+	if ! type "$1" >/dev/null 2>&1; then
+		error "Command '$1' is required." 1
+	fi
 }
 
 function usage() {
-        echo "Usage: `basename $0` <command> <files>"
-        echo "Commands:"
-        echo "   list|ls  : Lists file extended attributes."
-}
-
-function list_file_attributes() {
-        echo $1
+	echo "Usage: `basename $0` <command> <path>"
+	echo "Commands:"
+	echo "  ls                   : List file extended attributes."
+	echo "  show                 : Show all file extended attributes."
+	echo "  set|s <name> <value> : Set attribute <name> with value <value>."
+	echo "  get|g <name>         : Get attribute <name>."
+	echo "  rm <name>            : Remove attribute <name>."
+	echo "  clear                : Remove all attributes."
 }
 
 function list_attributes() {
-        files=$@
-        for file in ${files[@]}; do
-                list_file_attributes $file
-        done
+	require attr
+	attr -ql "$@"
 }
 
-case "$1" in
-        list|ls)
-                shift
-                list_attributes $@
-        ;;
-        help)
-                usage
-        ;;
-        *)
-                error "Invalid command: $1"
-                exit 1
-        ;;
-esac
+function show_attributes() {
+	require getfattr
+	local f="$1"
+	attr -ql "$f" | while read; do
+		echo -n "$REPLY "
+		get_attribute "$REPLY" "$f"
+	done
+}
+
+function get_attribute() {
+	require attr
+	local name="$1"
+	shift
+	attr -qg "$name" "$@"
+	echo
+}
+
+function set_attribute() {
+	require attr
+	local name="$1"
+	local value="$2"
+	shift 2
+	attr -qs "$name" -V "$value" "$@"
+}
+
+function remove_attributes() {
+	require attr
+	local name="$1"
+}
+
+function main() {
+	case "$1" in
+		ls)
+			shift
+			list_attributes "$@"
+		;;
+		show)
+			shift
+			show_attributes "$@"
+		;;
+		set|s)
+			shift
+			set_attribute "$@"
+		;;
+		get|g)
+			shift
+			get_attribute "$@"
+		;;
+		rm)
+			shift
+			remove_attributes "$@"
+		;;
+		help)
+			usage
+		;;
+		"")
+			error "Must specify a command. Use '$(basename -- $0) help' to show help." 1
+		;;
+		*)
+			error "Invalid command: $1" 1
+		;;
+	esac
+}
+
+main "$@"
