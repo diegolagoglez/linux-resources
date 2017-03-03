@@ -38,7 +38,7 @@ function show_path_if_needed() {
 
 function list_attributes() {
 	require attr
-	local paths="$@"
+	local paths=($@)
 	if [ ${#paths[@]} == 0 ]; then
 		paths=(".")
 	fi
@@ -50,7 +50,7 @@ function list_attributes() {
 
 function show_attributes() {
 	require attr
-	local paths="$@"
+	local paths=($@)
 	if [ ${#paths[@]} == 0 ]; then
 		paths=(".")
 	fi
@@ -58,7 +58,8 @@ function show_attributes() {
 		show_path_if_needed $f
 		attr -ql "$f" | while read; do
 			echo -n "$REPLY "
-			get_attribute "$REPLY" "$f"
+			attr -qg "$REPLY" "$f"
+			echo
 		done
 	done
 }
@@ -67,13 +68,13 @@ function get_attribute() {
 	require attr
 	local name="$1"
 	shift
-	local paths="$@"
+	local paths=($@)
 	if [ ${#paths[@]} == 0 ]; then
 		paths=(".")
 	fi
 	for f in ${paths[@]}; do
 		show_path_if_needed "$f"
-		attr -qg "$name" "$f"
+		attr -qg "$name" "$f" || return $?
 		echo
 	done
 }
@@ -83,7 +84,13 @@ function set_attribute() {
 	local name="$1"
 	local value="$2"
 	shift 2
-	attr -qs "$name" -V "$value" "$@"
+	local paths=($@)
+	if [ ${#paths[@]} == 0 ]; then
+		paths=(".")
+	fi
+	for f in ${paths[@]}; do
+		attr -qs "$name" -V "$value" "$f"
+	done
 }
 
 function remove_attributes() {
