@@ -1,14 +1,32 @@
 #!/bin/bash
 
-VERSION="0.1.0 20170303"
+VERSION="0.2.0 20170303"
 
 DEFAULT_FILE="."
 XA_SHOW_PATHS=
+XA_COLOR=
+
+COLOR_FILE=
+COLOR_ATTR_NAME=
+COLOR_ATTR_VALUE=
+COLOR_RESET="\e[0m"
 
 function error() {
 	echo "ERROR: $1" 1>&2
 	if [[ $2 =~ [0-9]+ ]]; then
 		exit $2
+	fi
+}
+
+function assign_colors() {
+	if [ ! -z "$XA_COLOR" ]; then
+		COLOR_FILE="\e[0;90m"
+		COLOR_ATTR_NAME="\e[0;91m"
+		COLOR_ATTR_VALUE="\e[0;94m" # Not used currently.
+	else
+		COLOR_FILE=
+		COLOR_ATTR_NAME=
+		COLOR_ATTR_VALUE=
 	fi
 }
 
@@ -34,11 +52,13 @@ function usage() {
 	echo "  -h                   Show this help and exit."
 	echo "  -p                   Show path before attributes (set XA_SHOW_PATHS variable)."
 	echo "  -P                   Hide path before attributes (unset XA_SHOW_PATHS variable)."
+	echo "  -c                   Use colors (set XA_COLOR variable)."
+	echo "  -C                   Do not use color (unset XA_COLOR variable)."
 }
 
 function show_path_if_needed() {
 	if [ ! -z "$XA_SHOW_PATHS" ]; then
-		echo "# $1"
+		echo -e "${COLOR_FILE}# ${1}${COLOR_RESET}"
 	fi
 }
 
@@ -63,7 +83,7 @@ function show_attributes() {
 	for f in ${paths[@]}; do
 		show_path_if_needed $f
 		attr -ql "$f" | while read; do
-			echo -n "$REPLY "
+			echo -ne "${COLOR_ATTR_NAME}${REPLY}${COLOR_RESET} "
 			attr -qg "$REPLY" "$f"
 			echo
 		done
@@ -113,8 +133,14 @@ function remove_attributes() {
 }
 
 function process_options() {
-	while getopts ":hpP" opt; do
+	while getopts ":cChpP" opt; do
 		case "$opt" in
+			c)
+				XA_COLOR=yes
+			;;
+			C)
+				XA_COLOR=
+			;;
 			h)
 				usage
 				exit 1
@@ -141,6 +167,8 @@ function main() {
 
 	process_options "$@"
 	shift $?
+
+	assign_colors
 
 	case "$1" in
 		ls|list)
