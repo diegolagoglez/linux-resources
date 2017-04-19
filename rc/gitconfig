@@ -21,6 +21,7 @@
 	graph = log --graph --oneline
 	l = log --graph --pretty=\"%Cred%h %Cgreen%ad %Cblue%an%Creset %s%C(yellow)%d\" --date='format:%F %T'
 	le = log --graph --pretty=\"%Cred%h %Cgreen%ai %Cblue%an <%ae>%Creset %s%C(yellow)%d\"
+	ll = !N=${1:-25} && C=$(git rev-list --all --count) && git log --graph --pretty=\"%Cred%h %Cgreen%ad %Cblue%an%Creset %s%C(yellow)%d\" --date='format:%F %T' -n$N && echo -e "- [$N/$C]"
 	rso = remote show origin
 	bd = branch-description
 	d = diff
@@ -32,6 +33,8 @@
 	discard-all = !git checkout -- $(git rev-parse --show-toplevel)
 	whatadded = log --diff-filter=A --
 	rootpath = rev-parse --show-toplevel
+	ap = add -p
+	cia = commit --amend
 [merge]
 	commit = no
 	ff = no
