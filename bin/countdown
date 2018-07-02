@@ -119,6 +119,11 @@ function main() {
 		esac
 	done
 
+	if [ -z "$action" ]; then
+		echo "ERROR: Invalid arguments. Use -h to show help." >&2
+		exit 1
+	fi
+
 	$action $param
 
 	if [ "$run" != "" ]; then
