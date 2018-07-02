@@ -1,6 +1,6 @@
 #!/bin/bash
 
-verbose=0
+verbose=
 
 function usage() {
 	echo "$(basename $0) v0.1 - Utility to do a console locking countdown."
@@ -16,7 +16,7 @@ function usage() {
 }
 
 function verbose() {
-	if [ $verbose -ne 0 ]; then
+	if [ ! -z "$verbose" ]; then
 		echo $@
 	fi
 }
@@ -106,7 +106,7 @@ function main() {
 				run="$OPTARG"
 			;;
 			v)
-				verbose=1
+				verbose=yes
 			;;
 			\?)
 				echo "ERROR: Invalid option: -$OPTARG" >&2
