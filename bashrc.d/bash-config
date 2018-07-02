@@ -19,10 +19,3 @@ HISTTIMEFORMAT='%F %T '
 export EDITOR=vim
 export SVN_EDITOR=vim
 
-# .bin directory.
-if [ -d ~/.bin ]; then
-	export PATH=$PATH:~/.bin
-elif [ -d ~/bin ]; then
-	export PATH=$PATH:~/bin
-fi
-
