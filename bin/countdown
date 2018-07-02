@@ -82,9 +82,9 @@ function main() {
 		usage
 	fi
 
-	local action=
-	local param=
-	local run=
+	local action
+	local param
+	local run
 
 	while getopts ":t:u:r:vh" opt; do
 		case "$opt" in
@@ -102,7 +102,6 @@ function main() {
 				usage
 			;;
 			r)
-				# FIXME: OPTARG does not catch quoted parameters.
 				run="$OPTARG"
 			;;
 			v)
@@ -110,7 +109,7 @@ function main() {
 			;;
 			\?)
 				echo "ERROR: Invalid option: -$OPTARG" >&2
-				exit 1	
+				exit 1
 			;;
 			:)
 				echo "ERROR: Option -$OPTARG requires an argument." >&2
@@ -119,14 +118,20 @@ function main() {
 		esac
 	done
 
+	shift $(( OPTIND - 1 ))
+
 	if [ -z "$action" ]; then
 		echo "ERROR: Invalid arguments. Use -h to show help." >&2
 		exit 1
 	fi
 
+	if [ ! -z "$verbose" -a ! -z "$run" ]; then
+		verbose "Run '$run' after countdown."
+	fi
+
 	$action $param
 
-	if [ "$run" != "" ]; then
+	if [ ! -z "$run" ]; then
 		$run
 	fi
 }
