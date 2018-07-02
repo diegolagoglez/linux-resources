@@ -15,7 +15,7 @@ alias df='df -Th'
 
 # Aliases for dates.
 #alias dateiso='date +%Y-%m-%dT%H:%M:%S.%N | cut -b 1-23'
-alias isodate='date +%FT%H:%M:%S%:z'
+alias isodate='date +%FT%T%:z'
 # Date alias to use to create file names, e.g.: my-backup-$(DATE)
 alias DATE='date +%Y%m%dT%H%M%S'
 alias DATEZ='date +%Y%m%dT%H%M%S%z'
