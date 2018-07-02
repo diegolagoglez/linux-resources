@@ -3,15 +3,15 @@
 verbose=
 
 function usage() {
-	echo "$(basename $0) v0.1 - Utility to do a console locking countdown."
-	echo "2014-03-27 Diego Lago González <diego.lago.gonzalez@gmail.com>"
-	echo "Usage: $(basename $0) [option]"
+	echo "$(basename $0) v0.4 20180702 -- Utility to do a blocking console countdown."
+	echo "GPLv3 -- Diego Lago González <diego.lago.gonzalez@gmail.com>"
+	echo "Usage: $(basename -- $0) [options]"
 	echo "Options:"
-	echo " -t <time>    : Countdown this time (integer for seconds, HH:MM[:SS] format for other time)."
-	echo " -u <time>    : Countdown until this time (HH:MM[:SS] format)."
-	echo " -r <command> : Run this on countdown end."
-	echo " -v           : Verbose."
-	echo " -h           : Show this help and exit."
+	echo " -t <time>    Countdown this time (integer for seconds, HH:MM[:SS] format for other time)."
+	echo " -u <time>    Countdown until this time (HH:MM[:SS] format)."
+	echo " -r '<cmd>'   Run command (quoted) after countdown."
+	echo " -v           Be verbose."
+	echo " -h           Show this help and exit."
 	exit 0
 }
 
