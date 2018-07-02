@@ -25,14 +25,14 @@ function countdown_to() {
 	local OLD_IFS="${IFS}"
 	IFS=":"
 	if [[ $1 =~ ^-?[0-9]+$ ]]; then
-		local SECONDS=$1
+		local SECONDS="$1"
 	else
 		local ARR=( $1 )
 		local SECONDS=$((  (ARR[0] * 60 * 60) + (ARR[1] * 60) + ARR[2]  ))
 	fi
 	local START=$(date +%s)
 	local END=$((START + SECONDS))
-	local CUR=$START
+	local CUR="$START"
 
 	[ -n ${ARR[1]} ] && ARR[1]="00"
 	[ -n ${ARR[2]} ] && ARR[2]="00"
