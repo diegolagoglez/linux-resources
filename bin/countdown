@@ -24,18 +24,28 @@ function verbose() {
 function countdown_to() {
 	local OLD_IFS="${IFS}"
 	IFS=":"
+	local ARR
+	local SECONDS
 	if [[ $1 =~ ^-?[0-9]+$ ]]; then
 		local SECONDS="$1"
 	else
-		local ARR=( $1 )
-		local SECONDS=$((  (ARR[0] * 60 * 60) + (ARR[1] * 60) + ARR[2]  ))
+		ARR=( $1 )
+		if [ ${#ARR[@]} -eq 2 ]; then
+			SECONDS=$(( (ARR[0] * 60) + ARR[1] ))
+		elif [ ${#ARR[@]} -eq 3 ]; then
+			SECONDS=$(( (ARR[0] * 60 * 60) + (ARR[1] * 60) + ARR[2] ))
+		else
+			echo "ERROR: Invalid time format: $1" >&2
+			exit 1
+		fi
 	fi
 	local START=$(date +%s)
 	local END=$((START + SECONDS))
 	local CUR="$START"
 
-	[ -n ${ARR[1]} ] && ARR[1]="00"
-	[ -n ${ARR[2]} ] && ARR[2]="00"
+	[ -n "${ARR[0]}" ] || ARR[0]="00"
+	[ -n "${ARR[1]}" ] || ARR[1]="00"
+	[ -n "${ARR[2]}" ] || ARR[2]="00"
 	verbose "Countdown for ${ARR[0]} hours, ${ARR[1]} minutes and ${ARR[2]} seconds ($SECONDS seconds)."
 
 	while [[ $CUR -lt $END ]]; do
