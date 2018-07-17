@@ -153,8 +153,8 @@ function prompt_under_screen() {
 }
 
 function construct_git_prompt() {
-	if [ $(type -t __git_ps1) ]; then
-		PS1+="\$(__git_ps1 '[git: $i_purple%s$white] ')"
+	if type -t __git_ps1 >/dev/null; then
+		PS1+="\$(__git_ps1 '[git $i_purple%s$white] ')"
 	fi
 }
 
