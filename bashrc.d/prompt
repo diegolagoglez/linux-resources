@@ -205,7 +205,7 @@ PROMPT_COMMAND='prompt_command'
 
 PS1=""	# Resets prompt.
 PS1+="$(prompt_under_screen)"
-PS1+="\$(jobs_info '[jobs:$green%s$reset|$red%s$reset] ')"
+PS1+="\$(jobs_info '[$green%s$reset|$red%s$reset] ')"
 PS1+="${debian_chroot:+($debian_chroot)}"
 PS1+="$(user_color)\u$i_yellow@$(host_color)\H$white "
 PS1+="$i_cyan\w$white "
