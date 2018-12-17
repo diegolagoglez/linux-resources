@@ -35,6 +35,8 @@
 	rootpath = rev-parse --show-toplevel
 	ap = add -p
 	cia = commit --amend
+	ciane = commit --amend --no-edit
+	push-all-remotes = !git remote | xargs -L1 git push
 [merge]
 	commit = no
 	ff = no
