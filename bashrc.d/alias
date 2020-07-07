@@ -1,10 +1,10 @@
 #!/bin/bash
 
 if [ "$(ls --help | grep group-directories-first)" == "" ]; then
-	alias ls='ls --color=auto --time-style=long-iso'
+	alias ls='ls --color=auto --time-style=long-iso -N'
 else
 	# If --group-directories-first is supported, add it to ls command.
-	alias ls='ls --color=auto --group-directories-first --time-style=long-iso'
+	alias ls='ls --color=auto --group-directories-first --time-style=long-iso -N'
 fi
 
 alias ll='ls -lh'
