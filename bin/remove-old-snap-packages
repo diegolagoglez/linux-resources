@@ -1,0 +1,20 @@
+#!/bin/bash
+# Removes old revisions of snaps
+# CLOSE ALL SNAPS BEFORE RUNNING THIS
+# Source: https://www.linuxuprising.com/2019/04/how-to-remove-old-snap-versions-to-free.html
+
+set -eu
+
+SNAPS_PATH="/var/lib/snapd/snaps/"
+
+echo "Space used by snaps before removing old snaps: $(du -hs $SNAPS_PATH)"
+echo "Removing old snap packages..."
+
+LANG=en_US.UTF-8 snap list --all | awk '/disabled/{print $1, $3}' | while read snapname revision; do
+	sudo snap remove "$snapname" --revision="$revision"
+done
+
+echo "Old snap packages removed."
+
+echo "Space used by snaps after removing old snaps: $(du -hs $SNAPS_PATH)"
+
