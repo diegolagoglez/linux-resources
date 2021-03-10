@@ -1,0 +1,11 @@
+#!/bin/bash
+
+export LANG=
+
+echo "CPU    : $(lscpu | grep '^CPU(s):' | cut -c24-) × $(lscpu | grep 'Model name' | cut -c24-)"
+echo "GPU    : $(lspci | grep VGA)"
+echo "Memory : $(cat /proc/meminfo | grep MemFree | awk '{print $2" "$3}') / $(cat /proc/meminfo | grep MemTotal | awk '{print $2" "$3}')"
+echo "Disks  : $(df -Th -x tmpfs -x devtmpfs -x squashfs | tail -n+2 | sed '2,$s/^/         /')"
+echo "OS     : $(lsb_release -d | cut -c14-) ($(lsb_release -c | cut -c11-))"
+echo "Kernel : $(uname -srvpo)"
+
