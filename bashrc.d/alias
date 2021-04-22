@@ -40,3 +40,10 @@ alias cmount='mount | column -t'
 # Path command shows the paths in lines.
 alias show-paths='echo -e ${PATH//:/\\n}'
 
+# Weather & Moon
+alias weather='curl wttr.in/Leon,Spain?m'
+alias olweather='curl "wttr.in/Leon,Spain?m&format=3"'
+alias moon-phase='curl wttr.in/Moon'
+
+alias hexdump='hexdump -C'
+
