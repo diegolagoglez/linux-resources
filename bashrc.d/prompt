@@ -137,10 +137,12 @@ function prompt_under_screen() {
 	if [ "$TERM" == "screen" ]; then
 		if [[ ! -z "$BYOBU_TTY" ]]; then
 			# Under byobu, not screen.
-			echo -n "[byobu \$(tmux display-message -p '#W')] "
+			# echo -n "[byobu \$(tmux display-message -p '#W')] "
+			echo -n "[byobu] "
 		elif [[ ! -z "$TMUX" ]]; then
 			# Under tmux, not screen.
-			echo -n "[tmux \$(tmux display-message -p '#W')] "
+			# echo -n "[tmux \$(tmux display-message -p '#W')] "
+			echo -n "[tmux] "
 		else
 			# Under screen.
 			echo -n "[screen"
@@ -211,6 +213,10 @@ PS1+="$(user_color)\u$i_yellow@$(host_color)\H$white "
 PS1+="$i_cyan\w$white "
 
 construct_git_prompt
+
+if [ ! -z "$PROMPT_MULTILINE" ]; then
+	PS1+="\n "
+fi
 
 PS1+="\$([ \$PROMPT_LAST_COMMAND_RESULT -eq 0 ] && echo -en '$i_green$PROMPT_CHAR_OK' || echo -en '$i_red$PROMPT_CHAR_FAIL')$reset \\$ $reset"
 
