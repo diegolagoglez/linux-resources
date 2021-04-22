@@ -28,7 +28,7 @@ __calc_color() {
 	local bgcolor=g
 	[ $loadint -gt $COLOR_THRESHOLD_MEDIUM ] && bgcolor=y
 	[ $loadint -gt $COLOR_THRESHOLD_HIGH ] && bgcolor=r
-	color $bgcolor w
+	color $bgcolor k
 }
 
 __load_average_detail() {
@@ -39,14 +39,16 @@ __load_average() {
 	if [ -r "/proc/loadavg" ]; then
 		read one five fifteen other < /proc/loadavg
 	else
-		one=$(uptime | sed -e "s/.*://" | awk '{print $1}')
+		one=$(uptime | sed -e 's/.*://' -e 's/,\ /\ /g' | awk '{print $1}')
+		five=$(uptime | sed -e 's/.*://' -e 's/,\ /\ /g' | awk '{print $2}')
+		fifteen=$(uptime | sed -e 's/.*://' -e 's/,\ /\ /g' | awk '{print $3}')
 	fi
 	[ -n "$one" ] || return
 	local color_reset=$(color --)
 	local color_one=$(__calc_color $one)
 	local color_five=$(__calc_color $five)
 	local color_fifteen=$(__calc_color $fifteen)
-	printf "$color_one$one$color_reset$color_five$five$color_reset$color_fifteen$fifteen$color_reset "
+	printf "$color_one$one$color_reset $color_five$five$color_reset $color_fifteen$fifteen$color_reset "
 }
 
 # vi: syntax=sh ts=4 noexpandtab
