@@ -1,0 +1,79 @@
+{
+  "file_version": "2.0",
+  "preferences": {
+    "custom_engines": {
+      "wp": {
+        "name": "Wikipedia ES",
+        "url": "https://es.wikipedia.org/w/index.php?search={searchTerms}",
+        "category": "",
+        "description": ""
+      },
+      "wpe": {
+        "name": "Wikipedia EN",
+        "url": "https://en.wikipedia.org/w/index.php?search={searchTerms}",
+        "category": "",
+        "description": ""
+      },
+      "dle": {
+        "name": "Diccionario de la RAE",
+        "url": "https://dle.rae.es/{searchTerms}",
+        "category": "",
+        "description": ""
+      },
+      "wr": {
+        "name": "Wordreference",
+        "url": "https://www.wordreference.com/es/translation.asp?tranword={searchTerms}",
+        "category": "",
+        "description": ""
+      },
+      "m": {
+        "name": "Menéame",
+        "url": "https://www.meneame.net/search?q={searchTerms}",
+        "category": "",
+        "description": ""
+      },
+      "g": {
+        "name": "Google ES",
+        "url": "https://www.google.es/search?q={searchTerms}",
+        "category": "",
+        "description": ""
+      },
+      "img": {
+        "name": "Google Images",
+        "url": "https://www.google.com/search?tbm=isch&q={searchTerms}",
+        "category": "",
+        "description": ""
+      },
+      "dimg": {
+        "name": "Duckduckgo Images",
+        "url": "https://duckduckgo.com/?iax=images&ia=images&q={searchTerms}",
+        "category": "",
+        "description": ""
+      },
+      "yt": {
+        "name": "YouTube",
+        "url": "https://www.youtube.com/results?search_query={searchTerms}",
+        "category": "",
+        "description": ""
+      },
+      "sin": {
+        "name": "Sonónimos (Wordreference)",
+        "url": "https://www.wordreference.com/sinonimos/{searchTerms}",
+        "category": "",
+        "description": ""
+      },
+      "syn": {
+        "name": "Sinónimos en inglés (Wordreference)",
+        "url": "https://www.wordreference.com/synonyms/{searchTerms}",
+        "category": "",
+        "description": ""
+      },
+      "d": {
+        "name": "DuckDuckGo",
+        "url": "https://duckduckgo.com/?q={searchTerms}",
+        "category": "",
+        "description": ""
+      }
+    }
+  }
+}
