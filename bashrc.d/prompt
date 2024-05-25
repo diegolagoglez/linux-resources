@@ -99,12 +99,17 @@ function user_color() {
 	fi
 }
 
+# Determine if a session is an SSH (remote) session or not.
+function is_remote_session() {
+	[ -n "$SSH_TTY" -o -n "$SSH_CLIENT" ]
+}
+
 # This function changes host color depeding on which server you are.
 function host_color() {
-	if [ -n "$I_AM_AT_CONSOLE" ]; then
-		echo -n $i_green
-	else
+	if is_remote_session; then
 		echo -n $bi_red
+	else
+		echo -n $i_green
 	fi
 }
 
