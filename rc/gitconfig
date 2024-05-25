@@ -21,7 +21,7 @@
 	graph = log --graph --oneline
 	l = log --graph --pretty=\"%Cred%h %Cgreen%ad %Cblue%an%Creset %s%C(yellow)%d\" --date='format:%F %T'
 	le = log --graph --pretty=\"%Cred%h %Cgreen%ai %Cblue%an <%ae>%Creset %s%C(yellow)%d\"
-	ll = !N=${1:-25} && C=$(git rev-list --all --count) && git log --graph --pretty=\"%Cred%h %Cgreen%ad %Cblue%an%Creset %s%C(yellow)%d\" --date='format:%F %T' -n$N && echo -e "- [$N/$C]"
+	ll = !N=${N:-25} && C=$(git rev-list --all --count) && git log --graph --pretty=\"%Cred%h %Cgreen%ad %Cblue%an%Creset %s%C(yellow)%d\" --date='format:%F %T' -n$N && echo "- [$N/$C]"
 	rso = remote show origin
 	bd = branch-description
 	d = diff
