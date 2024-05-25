@@ -2,7 +2,7 @@
 
 # BASH history control:
 # History size (by BASH session): save ALL commands.
-HISTSIZE=
+HISTSIZE=-1
 
 # Size of file where history is saved (in lines).
 # With no value or values less than 0 no trucation is done.
