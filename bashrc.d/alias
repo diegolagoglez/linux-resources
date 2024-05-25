@@ -35,7 +35,8 @@ alias lessf='less +F' # less watching mode (similar to tail -f).
 alias sl='sl -e'
 
 # Show columns in mount command.
-alias cmount='mount | column -t'
+alias cmount="mount | sed 's/\ on//' | sed 's/\ type//' | sed -E 's/\(|\)//g' | column -t"
+alias csmount="mount | grep '^/dev' | sed 's/\ on//' | sed 's/\ type//' | sed -E 's/\(|\)//g' | column -t"
 
 # Path command shows the paths in lines.
 alias show-paths='echo -e ${PATH//:/\\n}'
