@@ -66,17 +66,20 @@ function run_loop() {
     while read line; do
         case "$line" in
             *"{'LockedHint': <true>}"*)
+                verbose "LOCK detected. Run: $RUN_ON_LOCK"
                 eval "$RUN_ON_LOCK"
             ;;
             *"{'LockedHint': <false>}"*)
+                verbose "Unlock detected. Run: $RUN_ON_UNLOCK"
                 eval "$RUN_ON_UNLOCK"
             ;;
         esac
-    done < <(gdbus monitor --system --dest org.freedesktop.login1)
+    done < <(/usr/bin/gdbus monitor --system --dest org.freedesktop.login1)
 }
 
 function main() {
     process_options "$@"
+    verbose "$(basename -- $0) START"
     check_options $#
     run_loop
 }
