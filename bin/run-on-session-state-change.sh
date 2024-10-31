@@ -1,8 +1,18 @@
 #!/bin/bash
 
+VERSION="0.1.0-20241031"
+
+VERBOSE=
+
 function error() {
 	echo "ERROR: $1" >&2
 	exit
+}
+
+function verbose() {
+	if [ -n "$VERBOSE" ]; then
+		echo "$1"
+	fi
 }
 
 function show_help() {
@@ -12,12 +22,13 @@ Usage: $(basename -- $0) [Options]
 Options:
   -l <CMD>   Run <CMD> when session is locked.
   -u <CMD>   Run <CMD> when session is unlocked.
+  -v         Be verbose.
   -h         Show this help and exit.
 EOT
 }
 
 function process_options() {
-	while getopts ":hl:u:" opt; do
+	while getopts ":hl:u:v" opt; do
 		case "$opt" in
 			h)
 				show_help
@@ -28,6 +39,9 @@ function process_options() {
 			;;
 			u)
 				RUN_ON_UNLOCK="$OPTARG"
+			;;
+			v)
+				VERBOSE=yes
 			;;
 			\?)
 				error "Invalid option: -$OPTARG"
