@@ -1,0 +1,10 @@
+[Unit]
+Description=Service to reset Ubuntu Dock extension after unlock due to a bug
+
+[Service]
+Type=simple
+StandardOutput=journal
+ExecStart="%h/.local/bin/run-on-session-state-change.sh -v -u reset-ubuntu-dock-extension.sh"
+
+[Install]
+WantedBy=default.target
